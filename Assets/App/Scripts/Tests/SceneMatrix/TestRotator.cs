@@ -1,15 +1,22 @@
-using System.IO;
 using App.Scripts.Modules.Grid;
 using App.Scripts.Scenes.SceneMatrix.Features.FigureProvider.Parser;
 using App.Scripts.Scenes.SceneMatrix.Features.FigureRotator.Services;
 using NUnit.Framework;
+using Tests.Assets.App.Scripts.Tests.SceneMatrix;
 
 namespace Tests.SceneMatrix
 {
-    public class TestMatrix
+    public class TestRotator
     {
-        private const string PathTests = "Assets/App/Scripts/Tests/SceneMatrix/TestCases";
-        private const string TestDataFile = PathTests + "/{0}.txt";
+        private IFigureParser _figureParser;
+        private IFigureRotator _figureRotator;
+
+        [SetUp]
+        public void SetUp()
+        {
+            _figureParser = new ParserFigureDummy();
+            _figureRotator = new FigureRotatorDummy();
+        }
 
         [Test]
         [TestCase("g_block", "g_block_-1_expected", -1)]
@@ -34,25 +41,15 @@ namespace Tests.SceneMatrix
 
         private void ProcessFileTest(string fileKey, string expectedFileKey, int rotationCount)
         {
-            string pathTest = string.Format(TestDataFile, fileKey);
-            string pathTestExpected = string.Format(TestDataFile, expectedFileKey);
+            var inputMatrixText = TestTools.LoadMatrixFromKey(fileKey);
+            Grid<bool> inputMatrix = _figureParser.ParseFile(inputMatrixText);
 
-            Grid<bool> inputMatrix = LoadMatrixFromFile(pathTest);
-            Grid<bool> expectedMatrix = LoadMatrixFromFile(pathTestExpected);
+            var expectedMatrixText = TestTools.LoadMatrixFromKey(expectedFileKey);
+            Grid<bool> expectedMatrix = _figureParser.ParseFile(expectedMatrixText);
 
-            var figureRotator = new FigureRotatorDummy();
-
-            var resultMatrix = figureRotator.RotateFigure(inputMatrix, rotationCount);
+            var resultMatrix = _figureRotator.RotateFigure(inputMatrix, rotationCount);
 
             Assert.AreEqual(expectedMatrix, resultMatrix);
-        }
-
-        private Grid<bool> LoadMatrixFromFile(string file)
-        {
-            var parser = new FigureParserImpl();
-            var figureTxt = File.ReadAllText(file);
-
-            return parser.ParseFile(figureTxt);
         }
     }
 }

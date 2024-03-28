@@ -10,16 +10,25 @@ namespace App.Scripts.Scenes.SceneMatrix.Bootstrap
 {
     public class InstallerMatrixServices : MonoInstaller
     {
-        [SerializeField] private Camera gameCamera;
-        [SerializeField] private FigureProviderFiles.Config configFigures;
-        
+        [SerializeField]
+        private Camera gameCamera;
+
+        [SerializeField]
+        private FigureProviderFiles.Config configFigures;
+
         protected override void OnInstallBindings()
         {
-            Container.SetService<IFieldSizeProvider, FieldSizeProviderCamera>(new FieldSizeProviderCamera(gameCamera));
+            Container.SetService<IFieldSizeProvider, FieldSizeProviderCamera>(
+                new FieldSizeProviderCamera(gameCamera)
+            );
 
-            var figureProviderFiles = new FigureProviderFiles(configFigures, new ParserFigureDummy(), new ProviderResourceUnity());
+            var figureProviderFiles = new FigureProviderFiles(
+                configFigures,
+                new ParserFigureDummy(),
+                new ProviderResourceUnity()
+            );
             Container.SetService<IFigureProvider, FigureProviderFiles>(figureProviderFiles);
-            
+
             Container.SetService<IFigureRotator, FigureRotatorDummy>(new FigureRotatorDummy());
         }
     }
