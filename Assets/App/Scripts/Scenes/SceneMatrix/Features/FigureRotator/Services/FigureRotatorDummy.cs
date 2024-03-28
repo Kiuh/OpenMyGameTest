@@ -10,29 +10,32 @@ namespace App.Scripts.Scenes.SceneMatrix.Features.FigureRotator.Services
         public Grid<bool> RotateFigure(Grid<bool> grid, int rotateCount)
         {
             int rotations = ((rotateCount % 4) + 4) % 4;
-            Dictionary<Vector2Int, bool> matrix = new();
+            Dictionary<Vector2Int, bool> rotatedMatrix = new();
 
-            foreach (var index in Sequence(Vector2Int.zero, grid.Size))
+            // Create rotated matrix
+            foreach (var index in IterateMatrix(Vector2Int.zero, grid.Size))
             {
-                var rotatedIndex = Rotate(index, rotations);
-                matrix.Add(rotatedIndex, grid[index]);
+                var rotatedIndex = RotateVector2Int(index, rotations);
+                rotatedMatrix.Add(rotatedIndex, grid[index]);
             }
 
-            var newSize = Rotate(grid.Size, rotations);
+            // Create new grid
+            var newSize = RotateVector2Int(grid.Size, rotations);
             newSize = AbsVector2Int(newSize);
             var rotated = new Grid<bool>(newSize);
 
-            var orderedIndexes = matrix.Keys.OrderBy(v => v.x + v.y);
+            // Fill new grid
+            var orderedIndexes = rotatedMatrix.Keys.OrderBy(v => v.x + v.y);
             var shift = AbsVector2Int(orderedIndexes.First());
             foreach (var index in orderedIndexes)
             {
-                rotated[index + shift] = matrix[index];
+                rotated[index + shift] = rotatedMatrix[index];
             }
 
-            return grid;
+            return rotated;
         }
 
-        private IEnumerable<Vector2Int> Sequence(Vector2Int start, Vector2Int end)
+        private IEnumerable<Vector2Int> IterateMatrix(Vector2Int start, Vector2Int end)
         {
             for (int i = start.x; i < end.x; i++)
             {
@@ -43,14 +46,14 @@ namespace App.Scripts.Scenes.SceneMatrix.Features.FigureRotator.Services
             }
         }
 
-        private Vector2Int Rotate(Vector2Int vector, int count)
+        private Vector2Int RotateVector2Int(Vector2Int vector, int count)
         {
             return (count) switch
             {
                 0 => vector,
-                1 => new Vector2Int(-vector.y, vector.x),
+                1 => new Vector2Int(vector.y, -vector.x),
                 2 => new Vector2Int(-vector.x, -vector.y),
-                3 => new Vector2Int(vector.y, -vector.x),
+                3 => new Vector2Int(-vector.y, vector.x),
                 _ => throw new System.ArgumentException()
             };
         }
