@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Tests.App.Scripts.Tests.SceneCalculator
+namespace Tests.SceneCalculator
 {
     [Serializable]
     public class TestExpression
@@ -16,6 +16,7 @@ namespace Tests.App.Scripts.Tests.SceneCalculator
         public string key;
         public string value;
     }
+
     [Serializable]
     public class TestExpressionCase
     {
