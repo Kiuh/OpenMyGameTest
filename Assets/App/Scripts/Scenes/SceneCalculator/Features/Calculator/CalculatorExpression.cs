@@ -15,6 +15,10 @@ namespace App.Scripts.Scenes.SceneCalculator.Features.Calculator
         public void SetExpression(string expressionKey, string rawExpression)
         {
             Key key = new(expressionKey);
+            if (_expressions.ContainsKey(key))
+            {
+                throw new ExceptionExecuteExpression("Expression with this key already exist.");
+            }
             Expression expression = new(rawExpression);
             if (expression.IsNeedKey(key))
             {

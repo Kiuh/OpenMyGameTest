@@ -1,9 +1,11 @@
+using System.Collections.Generic;
 using System.IO;
 using App.Scripts.Modules.Grid;
 using App.Scripts.Modules.Serializer;
 using App.Scripts.Scenes.SceneHeroes.Features.Grid.LevelInfo.Serializable;
 using App.Scripts.Scenes.SceneHeroes.Features.PathFinding;
 using NUnit.Framework;
+using UnityEngine;
 
 namespace Tests.SceneHeroes
 {
@@ -39,13 +41,12 @@ namespace Tests.SceneHeroes
                 grid[obstacle.Place.ToVector2Int()] = obstacle.ObstacleType;
             }
 
-            System.Collections.Generic.List<UnityEngine.Vector2Int> path =
-                serviceUnitNavigator.FindPath(
-                    testCase.UnitType,
-                    testCase.PlaceUnit.ToVector2Int(),
-                    testCase.target.ToVector2Int(),
-                    grid
-                );
+            List<Vector2Int> path = serviceUnitNavigator.FindPath(
+                testCase.UnitType,
+                testCase.PlaceUnit.ToVector2Int(),
+                testCase.target.ToVector2Int(),
+                grid
+            );
 
             if (testCase.targetStepCount < 0 && path is null)
             {

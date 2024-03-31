@@ -100,7 +100,7 @@ namespace App.Scripts.Scenes.SceneCalculator.Features.Calculator
                 '/' => operand1 / operand2,
                 '+' => operand1 + operand2,
                 '-' => operand1 - operand2,
-                _ => throw new ExceptionExecuteExpression("Invalid operand")
+                _ => throw new ExceptionExecuteExpression("Invalid operand.")
             };
         }
 
