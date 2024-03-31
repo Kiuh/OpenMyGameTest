@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using App.Scripts.Modules.Grid;
 using App.Scripts.Modules.Serializer;
 using App.Scripts.Scenes.SceneHeroes.Features.Grid.LevelInfo.Serializable;
@@ -53,7 +54,14 @@ namespace Tests.SceneHeroes
                 return;
             }
 
-            Assert.AreEqual(testCase.targetStepCount, path.Count, "step count invalid");
+            Assert.AreEqual(
+                testCase.targetStepCount,
+                path.Count,
+                $"Step count invalid {testCase.UnitType}\n"
+                    + $"{grid}\n{testCase.PlaceUnit.ToVector2Int()}"
+                    + $"\n{testCase.target.ToVector2Int()}"
+                    + $"\n Path: {path.Select(x => x.ToString()).Aggregate((x, y) => $"{x} {y}")}"
+            );
         }
     }
 }

@@ -33,9 +33,9 @@ namespace App.Scripts.Scenes.SceneHeroes.Features.PathFinding
         {
             UnitMoveData unitMoveData = UnitMoveData.FromUnitType(unitType);
             Grid<Obstacle> grid = new(gridMatrix.Size);
-            for (int i = 0; i < gridMatrix.Width; i++)
+            for (int i = 0; i < gridMatrix.Height; i++)
             {
-                for (int j = 0; j < gridMatrix.Height; j++)
+                for (int j = 0; j < gridMatrix.Width; j++)
                 {
                     grid[i, j] = (Obstacle)gridMatrix[i, j];
                 }
@@ -71,13 +71,15 @@ namespace App.Scripts.Scenes.SceneHeroes.Features.PathFinding
                     Location iterator = processed.FirstOrDefault(l =>
                         l.Position == target.Position
                     );
-                    List<Vector2Int> _result = new();
-                    while (iterator.Parent != null)
+                    List<Vector2Int> result = new();
+                    while (iterator != null)
                     {
-                        _result.Add(iterator.Position);
+                        result.Add(iterator.Position);
                         iterator = iterator.Parent;
                     }
-                    return _result;
+                    result.Reverse();
+                    result.RemoveAt(0);
+                    return result;
                 }
 
                 List<Location> availableLocations = unitMoveData

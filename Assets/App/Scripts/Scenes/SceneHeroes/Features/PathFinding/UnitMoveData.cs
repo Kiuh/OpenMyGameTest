@@ -18,67 +18,6 @@ namespace App.Scripts.Scenes.SceneHeroes.Features.PathFinding
         CanStayAndPass,
     }
 
-    public class ConstantPattern : IMovePattern
-    {
-        public List<Vector2Int> Moves;
-
-        public IEnumerable<Vector2Int> CreateSequence(
-            Grid<Obstacle> grid,
-            Vector2Int position,
-            Dictionary<Obstacle, StayType> passInfo
-        )
-        {
-            List<Vector2Int> nextLocations = new();
-            foreach (Vector2Int move in Moves)
-            {
-                position += move;
-                if (!grid.IsValid(position))
-                {
-                    continue;
-                }
-                Obstacle obstacle = grid[position];
-                if (passInfo[obstacle] == StayType.CanStayAndPass)
-                {
-                    nextLocations.Add(position);
-                }
-                else
-                {
-                    break;
-                }
-            }
-            return nextLocations;
-        }
-    }
-
-    public class InfinityMovePattern : IMovePattern
-    {
-        public Vector2Int Direction;
-
-        public IEnumerable<Vector2Int> CreateSequence(
-            Grid<Obstacle> grid,
-            Vector2Int position,
-            Dictionary<Obstacle, StayType> passInfo
-        )
-        {
-            List<Vector2Int> nextLocations = new();
-            position += Direction;
-            while (grid.IsValid(position))
-            {
-                Obstacle obstacle = grid[position];
-                if (passInfo[obstacle] == StayType.CanStayAndPass)
-                {
-                    nextLocations.Add(position);
-                }
-                else
-                {
-                    break;
-                }
-                position += Direction;
-            }
-            return nextLocations;
-        }
-    }
-
     public class UnitMoveData
     {
         public List<IMovePattern> MovePatterns;
@@ -173,14 +112,14 @@ namespace App.Scripts.Scenes.SceneHeroes.Features.PathFinding
                     {
                         MovePatterns = new()
                         {
-                            new ConstantPattern() { Moves = { new(2, 1) } },
-                            new ConstantPattern() { Moves = { new(1, 2) } },
-                            new ConstantPattern() { Moves = { new(-1, 2) } },
-                            new ConstantPattern() { Moves = { new(-2, 1) } },
-                            new ConstantPattern() { Moves = { new(2, -1) } },
-                            new ConstantPattern() { Moves = { new(-1, -2) } },
-                            new ConstantPattern() { Moves = { new(-2, -1) } },
-                            new ConstantPattern() { Moves = { new(1, -2) } },
+                            new ConstantPattern() { Moves = new() { new(2, 1) } },
+                            new ConstantPattern() { Moves = new() { new(1, 2) } },
+                            new ConstantPattern() { Moves = new() { new(-1, 2) } },
+                            new ConstantPattern() { Moves = new() { new(-2, 1) } },
+                            new ConstantPattern() { Moves = new() { new(2, -1) } },
+                            new ConstantPattern() { Moves = new() { new(-1, -2) } },
+                            new ConstantPattern() { Moves = new() { new(-2, -1) } },
+                            new ConstantPattern() { Moves = new() { new(1, -2) } },
                         },
                         PassInfo = new()
                         {
@@ -206,7 +145,7 @@ namespace App.Scripts.Scenes.SceneHeroes.Features.PathFinding
                         PassInfo = new()
                         {
                             { Obstacle.None, StayType.CanStayAndPass },
-                            { Obstacle.Stone, StayType.CannotPass },
+                            { Obstacle.Stone, StayType.CanStayAndPass },
                             { Obstacle.Water, StayType.CannotPass },
                         }
                     },
