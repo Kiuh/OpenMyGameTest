@@ -4,7 +4,6 @@ using App.Scripts.Scenes.SceneHeroes.Features.GameInput.Systems;
 using App.Scripts.Scenes.SceneHeroes.Features.Grid.Systems;
 using App.Scripts.Scenes.SceneHeroes.Features.LevelNavigation.Systems;
 using App.Scripts.Scenes.SceneHeroes.Features.SaveField;
-using App.Scripts.Scenes.SceneHeroes.Features.Units.UnitSelection;
 using App.Scripts.Scenes.SceneHeroes.Features.Units.UnitSelection.Systems;
 using App.Scripts.Scenes.SceneHeroes.Features.Units.UnitSelection.UnitTypeSelector;
 using UnityEngine;
@@ -14,27 +13,45 @@ namespace App.Scripts.Scenes.SceneHeroes.Bootstrap.Installers
 {
     public class InstallerSystems : MonoInstaller
     {
-        [SerializeField] private Camera gameCamera;
-        [SerializeField] private ViewSelectorItem viewSelectorHero;
-        [SerializeField] private ViewSelectorItem viewSelectorClickMode;
+        [SerializeField]
+        private Camera gameCamera;
 
-        [SerializeField] private Button buttonSave;
-        [SerializeField] private ServiceSaveModelConfig.Config configSaveField;
-        
+        [SerializeField]
+        private ViewSelectorItem viewSelectorHero;
+
+        [SerializeField]
+        private ViewSelectorItem viewSelectorClickMode;
+
+        [SerializeField]
+        private Button buttonSave;
+
+        [SerializeField]
+        private ServiceSaveModelConfig.Config configSaveField;
+
         protected override void OnInstallBindings()
         {
-            var systemGroup = new SystemsGroup();
+            SystemsGroup systemGroup = new();
 
-            systemGroup.AddSystem(Container.CreateInstance<SystemRequestUpdateLevel>());
-            systemGroup.AddSystem(Container.CreateInstance<SystemRebuildLevel>());
-            systemGroup.AddSystem(Container.CreateInstanceWithArguments<SystemSwitchUnit>(viewSelectorHero));
-            systemGroup.AddSystem(Container.CreateInstanceWithArguments<SystemFieldClick>(gameCamera));
-            systemGroup.AddSystem(Container.CreateInstanceWithArguments<SystemChangeClickHandler>(viewSelectorClickMode));
-            systemGroup.AddSystem(Container.CreateInstance<SystemResetInput>());
+            _ = systemGroup.AddSystem(Container.CreateInstance<SystemRequestUpdateLevel>());
+            _ = systemGroup.AddSystem(Container.CreateInstance<SystemRebuildLevel>());
+            _ = systemGroup.AddSystem(
+                Container.CreateInstanceWithArguments<SystemSwitchUnit>(viewSelectorHero)
+            );
+            _ = systemGroup.AddSystem(
+                Container.CreateInstanceWithArguments<SystemFieldClick>(gameCamera)
+            );
+            _ = systemGroup.AddSystem(
+                Container.CreateInstanceWithArguments<SystemChangeClickHandler>(
+                    viewSelectorClickMode
+                )
+            );
+            _ = systemGroup.AddSystem(Container.CreateInstance<SystemResetInput>());
 
-            var serviceSaveField = new ServiceSaveModelConfig(configSaveField);
-            systemGroup.AddSystem(Container.CreateInstanceWithArguments<SystemSaveField>(buttonSave, serviceSaveField));
-            
+            ServiceSaveModelConfig serviceSaveField = new(configSaveField);
+            _ = systemGroup.AddSystem(
+                Container.CreateInstanceWithArguments<SystemSaveField>(buttonSave, serviceSaveField)
+            );
+
             Container.SetServiceSelf(systemGroup);
         }
     }

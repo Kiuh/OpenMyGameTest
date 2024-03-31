@@ -14,23 +14,28 @@ namespace App.Scripts.Scenes.SceneHeroes.Features.PathFinding.PathDrawer
         private readonly IPathLineDrawer _pathLineDrawer;
         private readonly Config _config;
 
-        private readonly List<ViewCell> _pathCells = new ();
+        private readonly List<ViewCell> _pathCells = new();
 
-        public ViewPathGrid(IViewGridContainer viewGridContainer, IFactory<ViewCell> factory, IPathLineDrawer pathLineDrawer, Config config)
+        public ViewPathGrid(
+            IViewGridContainer viewGridContainer,
+            IFactory<ViewCell> factory,
+            IPathLineDrawer pathLineDrawer,
+            Config config
+        )
         {
             _viewGridContainer = viewGridContainer;
             _factory = factory;
             _pathLineDrawer = pathLineDrawer;
             _config = config;
         }
-        
+
         public void DrawCellPath(List<Vector2Int> path)
         {
             Reset();
-            
+
             foreach (Vector2Int cellPath in path)
             {
-                var pathCellView = _factory.Create();
+                ViewCell pathCellView = _factory.Create();
                 pathCellView.SetColor(_config.pathColor);
                 pathCellView.SetLayer(_config.PathLayer);
                 _viewGridContainer.AddViewCell(pathCellView, cellPath);
@@ -38,19 +43,19 @@ namespace App.Scripts.Scenes.SceneHeroes.Features.PathFinding.PathDrawer
                 _pathLineDrawer.AddPoint(_viewGridContainer.GridToPosition(cellPath));
             }
         }
-        
+
         public void Reset()
         {
             _pathLineDrawer.Reset();
-            
+
             foreach (ViewCell pathCell in _pathCells)
             {
                 pathCell.Remove();
             }
-            
+
             _pathCells.Clear();
         }
-        
+
         [Serializable]
         public class Config
         {

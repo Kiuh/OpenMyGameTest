@@ -7,8 +7,9 @@ namespace App.Scripts.Scenes.SceneHeroes.Features.Units.UnitSelection.UnitTypeSe
 {
     public class ViewSelectorItem : MonoBehaviour, IViewSelectorItem
     {
-        [SerializeField] private TMP_Dropdown dropdown;
-        
+        [SerializeField]
+        private TMP_Dropdown dropdown;
+
         public event Action<int> OnSelectItem;
 
         private readonly List<TMP_Dropdown.OptionData> _options = new();
@@ -24,14 +25,12 @@ namespace App.Scripts.Scenes.SceneHeroes.Features.Units.UnitSelection.UnitTypeSe
             OnSelectItem?.Invoke(index);
         }
 
-
         public void UpdateItems(IEnumerable<string> availableUnits)
         {
             _options.Clear();
             _items.Clear();
-            
-            
-            foreach (var unitType in availableUnits)
+
+            foreach (string unitType in availableUnits)
             {
                 _options.Add(new TMP_Dropdown.OptionData(unitType));
                 _items.Add(unitType);

@@ -9,15 +9,22 @@ namespace App.Scripts.Features.Scenes.SceneSelector.Installer
 {
     public class InstallerSceneSelection : MonoInstaller
     {
-        [SerializeField] private ViewSceneSwitcherMono viewSceneSwitcherMono; 
-        [SerializeField] private MonoControlPanel monoControlPanel; 
-        [SerializeField] private ConfigScenes configScenes; 
-            
+        [SerializeField]
+        private ViewSceneSwitcherMono viewSceneSwitcherMono;
+
+        [SerializeField]
+        private MonoControlPanel monoControlPanel;
+
+        [SerializeField]
+        private ConfigScenes configScenes;
+
         protected override void OnInstallBindings()
         {
             Container.SetService<IViewSceneSwitcher, ViewSceneSwitcherMono>(viewSceneSwitcherMono);
             Container.SetService<IControlPanel, MonoControlPanel>(monoControlPanel);
-            Container.SetService<ISceneNavigator, SceneNavigatorLoader>(new SceneNavigatorLoader(configScenes));
+            Container.SetService<ISceneNavigator, SceneNavigatorLoader>(
+                new SceneNavigatorLoader(configScenes)
+            );
         }
     }
 }

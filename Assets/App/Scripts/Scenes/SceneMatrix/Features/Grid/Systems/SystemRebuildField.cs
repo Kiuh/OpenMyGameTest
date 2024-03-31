@@ -18,15 +18,17 @@ namespace App.Scripts.Scenes.SceneMatrix.Features.Grid.Systems
             _viewGridContainer = viewGridContainer;
             _factory = factory;
         }
-        
-        public void Init()
-        {
-            
-        }
+
+        public void Init() { }
 
         public void Update(float dt)
         {
-            if (Context.Signals.TryGetComponent<RequestUpdateFigure>(out var request) is false)
+            if (
+                Context.Signals.TryGetComponent<RequestUpdateFigure>(
+                    out RequestUpdateFigure request
+                )
+                is false
+            )
             {
                 return;
             }
@@ -39,24 +41,22 @@ namespace App.Scripts.Scenes.SceneMatrix.Features.Grid.Systems
             _viewGridContainer.ClearCells();
 
             _viewGridContainer.UpdateGrid(componentFigure.Size);
-            
+
             for (int i = 0; i < componentFigure.Height; i++)
             {
                 for (int j = 0; j < componentFigure.Width; j++)
                 {
                     if (componentFigure[j, i])
                     {
-                        var view = _factory.Create();
+                        ViewCell view = _factory.Create();
                         _viewGridContainer.AddViewCell(view, new Vector2Int(j, i));
                     }
                 }
             }
-            
+
             Context.Data.SetComponent(componentFigure);
         }
 
-        public void Cleanup()
-        {
-        }
+        public void Cleanup() { }
     }
 }

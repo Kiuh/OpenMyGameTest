@@ -13,11 +13,11 @@ namespace App.Scripts.Features.Scenes.SceneSelector.StateSteps
         {
             _sceneNavigator = sceneNavigator;
         }
-        
+
         public override Task OnEnter(TriggerSceneChange value)
         {
             _sceneNavigator.LoadScene(value.SceneInfo);
-            
+
             return base.OnEnter(value);
         }
     }

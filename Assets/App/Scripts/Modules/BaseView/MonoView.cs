@@ -4,7 +4,8 @@ namespace App.Scripts.Modules.BaseView
 {
     public class MonoView : MonoBehaviour
     {
-        [SerializeField] private Transform root;
+        [SerializeField]
+        private Transform root;
 
         public Transform Transform => root;
 
@@ -17,7 +18,6 @@ namespace App.Scripts.Modules.BaseView
         public Vector3 localScale
         {
             get => Transform.localScale;
-
             set => Transform.localScale = value;
         }
 
@@ -35,7 +35,5 @@ namespace App.Scripts.Modules.BaseView
         {
             Destroy(gameObject);
         }
-
-      
     }
 }

@@ -6,13 +6,14 @@ namespace App.Scripts.Features.Scenes.SceneSelector.View.ControlPanel
 {
     public class MonoControlPanel : MonoBehaviour, IControlPanel
     {
-        [SerializeField] private Button buttonMenuScenes;
-        
+        [SerializeField]
+        private Button buttonMenuScenes;
+
         public event Action OnScenePanelClick;
 
         private void Awake()
         {
-            buttonMenuScenes.onClick.AddListener(()=>OnScenePanelClick?.Invoke());
+            buttonMenuScenes.onClick.AddListener(() => OnScenePanelClick?.Invoke());
         }
     }
 }

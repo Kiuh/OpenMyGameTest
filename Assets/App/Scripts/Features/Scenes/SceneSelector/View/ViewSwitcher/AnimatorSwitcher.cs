@@ -7,21 +7,23 @@ namespace App.Scripts.Features.Scenes.SceneSelector.View.ViewSwitcher
 {
     public class AnimatorSwitcher : MonoBehaviour
     {
-        [SerializeField] private RectTransform container;
+        [SerializeField]
+        private RectTransform container;
 
-        [SerializeField] private float duration;
-        
+        [SerializeField]
+        private float duration;
+
         private Sequence _animation;
-        
+
         public Task Show()
         {
             CancelAnimation();
-            
+
             _animation = DOTween.Sequence();
 
-            _animation.Append(container.DOAnchorPosX(0, duration).SetEase(Ease.InSine));
-            _animation.AppendCallback(CompleteAnimation);
-            
+            _ = _animation.Append(container.DOAnchorPosX(0, duration).SetEase(Ease.InSine));
+            _ = _animation.AppendCallback(CompleteAnimation);
+
             return _animation.Await();
         }
 
@@ -46,9 +48,11 @@ namespace App.Scripts.Features.Scenes.SceneSelector.View.ViewSwitcher
             CancelAnimation();
             _animation = DOTween.Sequence();
 
-            _animation.Append(container.DOAnchorPosX(-container.rect.width, duration).SetEase(Ease.InSine));
-            _animation.AppendCallback(CompleteAnimation);
-            
+            _ = _animation.Append(
+                container.DOAnchorPosX(-container.rect.width, duration).SetEase(Ease.InSine)
+            );
+            _ = _animation.AppendCallback(CompleteAnimation);
+
             return _animation.Await();
         }
     }

@@ -10,11 +10,14 @@ namespace App.Scripts.Features.Scenes.SceneSelector.View.ViewSwitcher
     {
         public event Action<SceneInfo> OnItemSelected;
 
-        [SerializeField] private ViewItemsSelector selector;
-        [SerializeField] private AnimatorSwitcher animator;
-        
+        [SerializeField]
+        private ViewItemsSelector selector;
+
+        [SerializeField]
+        private AnimatorSwitcher animator;
+
         public bool IsShow { get; private set; }
-        
+
         private void Awake()
         {
             selector.OnItemSelected += ItemSelected;
@@ -27,7 +30,7 @@ namespace App.Scripts.Features.Scenes.SceneSelector.View.ViewSwitcher
 
         public void UpdateItems(IEnumerable<SceneInfo> sceneInfos)
         {
-            selector.UpdateItems(sceneInfos);   
+            selector.UpdateItems(sceneInfos);
         }
 
         public Task Show()

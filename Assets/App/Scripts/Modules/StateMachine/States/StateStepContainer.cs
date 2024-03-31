@@ -4,27 +4,26 @@ using App.Scripts.Modules.StateMachine.Transitions;
 
 namespace App.Scripts.Modules.StateMachine.States
 {
-
     public interface IStateStep
     {
         Task OnEnter();
         Task OnExit();
         void Update();
-        
+
         bool IsComplete { get; set; }
-        
+
         IStateMachineTrigger StateMachine { get; set; }
     }
-    
+
     public interface IStateStepPayload<T> : IStateStep
     {
         Task OnEnter(T value);
     }
-    
+
     public class StateStepContainer : IState
     {
-        private readonly List<IStateStep> _steps = new ();
-        private readonly List<ITransition> _transitions = new ();
+        private readonly List<IStateStep> _steps = new();
+        private readonly List<ITransition> _transitions = new();
         public List<ITransition> Transitions => _transitions;
         public bool IsComplete => IsCompleteSteps();
 
@@ -57,12 +56,12 @@ namespace App.Scripts.Modules.StateMachine.States
 
         public void AddStep(IStateStep step)
         {
-            _steps.Add(step);   
+            _steps.Add(step);
         }
 
         public void AddTransition(ITransition transition)
         {
-            _transitions.Add(transition);    
+            _transitions.Add(transition);
         }
 
         public async Task OnExit()
@@ -89,7 +88,7 @@ namespace App.Scripts.Modules.StateMachine.States
                 stateStep.Update();
             }
         }
-        
+
         private bool IsCompleteSteps()
         {
             foreach (IStateStep stateStep in _steps)
@@ -102,6 +101,5 @@ namespace App.Scripts.Modules.StateMachine.States
 
             return true;
         }
-
     }
 }

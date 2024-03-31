@@ -14,17 +14,21 @@ namespace App.Scripts.Features.Scenes.SceneSelector.StateSteps
         private readonly ISceneNavigator _sceneNavigator;
         private readonly IControlPanel _controlPanel;
 
-        public StepControlSceneSelection(IViewSceneSwitcher viewSceneSwitcher, ISceneNavigator sceneNavigator, IControlPanel controlPanel)
+        public StepControlSceneSelection(
+            IViewSceneSwitcher viewSceneSwitcher,
+            ISceneNavigator sceneNavigator,
+            IControlPanel controlPanel
+        )
         {
             _viewSceneSwitcher = viewSceneSwitcher;
             _sceneNavigator = sceneNavigator;
             _controlPanel = controlPanel;
         }
-        
+
         public override Task OnEnter()
         {
-            _viewSceneSwitcher.Hide();
-            
+            _ = _viewSceneSwitcher.Hide();
+
             _viewSceneSwitcher.OnItemSelected += OnItemSelected;
             _controlPanel.OnScenePanelClick += SceneSelectionClick;
             UpdateItems();
@@ -35,18 +39,18 @@ namespace App.Scripts.Features.Scenes.SceneSelector.StateSteps
         {
             if (_viewSceneSwitcher.IsShow)
             {
-                _viewSceneSwitcher.Hide();
+                _ = _viewSceneSwitcher.Hide();
                 return;
             }
 
-            _viewSceneSwitcher.Show();
+            _ = _viewSceneSwitcher.Show();
         }
 
         private void UpdateItems()
         {
             _viewSceneSwitcher.UpdateItems(_sceneNavigator.GetAvailableSwitchScenes());
         }
-        
+
         private void OnItemSelected(SceneInfo sceneInfo)
         {
             StateMachine.FireTrigger(new TriggerSceneChange(sceneInfo));

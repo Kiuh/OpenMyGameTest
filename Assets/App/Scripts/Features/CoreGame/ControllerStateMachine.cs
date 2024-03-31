@@ -11,7 +11,7 @@ namespace App.Scripts.Features.CoreGame
         {
             _stateMachine = stateMachine;
         }
-        
+
         public void Init()
         {
             _stateMachine.Initialize();

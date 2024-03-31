@@ -22,11 +22,8 @@ namespace App.Scripts.Scenes.SceneMatrix.Bootstrap
                 new FieldSizeProviderCamera(gameCamera)
             );
 
-            var figureProviderFiles = new FigureProviderFiles(
-                configFigures,
-                new ParserFigureDummy(),
-                new ProviderResourceUnity()
-            );
+            FigureProviderFiles figureProviderFiles =
+                new(configFigures, new ParserFigureDummy(), new ProviderResourceUnity());
             Container.SetService<IFigureProvider, FigureProviderFiles>(figureProviderFiles);
 
             Container.SetService<IFigureRotator, FigureRotatorDummy>(new FigureRotatorDummy());

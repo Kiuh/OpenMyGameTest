@@ -13,10 +13,8 @@ namespace App.Scripts.Scenes.SceneHeroes.Features.GameInput.Systems
         {
             _handlerInputSelector = handlerInputSelector;
         }
-        
-        public void Init()
-        {
-        }
+
+        public void Init() { }
 
         public void Update(float dt)
         {
@@ -26,8 +24,6 @@ namespace App.Scripts.Scenes.SceneHeroes.Features.GameInput.Systems
             }
         }
 
-        public void Cleanup()
-        {
-        }
+        public void Cleanup() { }
     }
 }

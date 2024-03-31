@@ -4,13 +4,14 @@ namespace App.Scripts.Modules.BaseView
 {
     public class MonoViewUI : MonoBehaviour
     {
-        [SerializeField] private RectTransform root;
+        [SerializeField]
+        private RectTransform root;
 
         public RectTransform RectTransform => root;
 
         private void Awake()
         {
-            if (root is null) root = GetComponent<RectTransform>();
+            root ??= GetComponent<RectTransform>();
 
             OnAwake();
         }
@@ -20,9 +21,7 @@ namespace App.Scripts.Modules.BaseView
             RectTransform.localScale = scaleValue;
         }
 
-        protected virtual void OnAwake()
-        {
-        }
+        protected virtual void OnAwake() { }
 
         public virtual void Remove()
         {
@@ -30,9 +29,7 @@ namespace App.Scripts.Modules.BaseView
             Destroy(gameObject);
         }
 
-        public virtual void Cleanup()
-        {
-        }
+        public virtual void Cleanup() { }
 
         public virtual void SetParent(RectTransform containerButtons)
         {

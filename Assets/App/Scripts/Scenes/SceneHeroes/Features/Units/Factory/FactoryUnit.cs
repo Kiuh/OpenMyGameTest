@@ -10,8 +10,10 @@ namespace App.Scripts.Scenes.SceneHeroes.Features.Units.Factory
         private readonly IViewGridContainer _viewGridContainer;
         private readonly IFactory<UnitType, ViewCell> _factoryViewUnit;
 
-        public FactoryUnit(IViewGridContainer viewGridContainer,
-            IFactory<UnitType, ViewCell> factoryViewUnit)
+        public FactoryUnit(
+            IViewGridContainer viewGridContainer,
+            IFactory<UnitType, ViewCell> factoryViewUnit
+        )
         {
             _viewGridContainer = viewGridContainer;
             _factoryViewUnit = factoryViewUnit;
@@ -19,9 +21,9 @@ namespace App.Scripts.Scenes.SceneHeroes.Features.Units.Factory
 
         public Unit Create(IUnitInfo unitInfo)
         {
-            var unitView = _factoryViewUnit.Create(unitInfo.Unit);
+            ViewCell unitView = _factoryViewUnit.Create(unitInfo.Unit);
             _viewGridContainer.AddViewCell(unitView, unitInfo.CellPosition);
-            var unit = new Unit(unitInfo.Unit, unitInfo.CellPosition, unitView);
+            Unit unit = new(unitInfo.Unit, unitInfo.CellPosition, unitView);
             return unit;
         }
     }

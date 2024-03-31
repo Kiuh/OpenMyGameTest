@@ -13,7 +13,7 @@ namespace App.Scripts.Modules.StateMachine
         {
             StartNode = GetNode(startNode);
         }
-        
+
         public void AddState(string stateId, IState state)
         {
             _states.Add(stateId, state);
@@ -21,7 +21,7 @@ namespace App.Scripts.Modules.StateMachine
 
         public IState GetNode(string idNextNode)
         {
-            if (_states.TryGetValue(idNextNode, out var node))
+            if (_states.TryGetValue(idNextNode, out IState node))
             {
                 return node;
             }
@@ -31,13 +31,13 @@ namespace App.Scripts.Modules.StateMachine
 
         public void AddCompleteTransition(string stateFrom, string stateTo)
         {
-            AddTransitionToNode(stateFrom, stateTo,  new TransitionComplete());
+            AddTransitionToNode(stateFrom, stateTo, new TransitionComplete());
         }
 
         private void AddTransitionToNode(string stateFrom, string stateTo, ITransition transition)
         {
             transition.NextNode = stateTo;
-            var node = GetNode(stateFrom);
+            IState node = GetNode(stateFrom);
             node.AddTransition(transition);
         }
 

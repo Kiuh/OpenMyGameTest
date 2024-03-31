@@ -9,17 +9,24 @@ namespace App.Scripts.Scenes.SceneHeroes.Features.Grid.Obstacles.ObstacleView
         private readonly ConfigViewObstacle _configViewObstacle;
         private readonly FactoryViewCell _factoryViewCell;
 
-        public FactoryViewObstacle(ConfigViewObstacle configViewObstacle, FactoryViewCell factoryViewCell)
+        public FactoryViewObstacle(
+            ConfigViewObstacle configViewObstacle,
+            FactoryViewCell factoryViewCell
+        )
         {
             _configViewObstacle = configViewObstacle;
             _factoryViewCell = factoryViewCell;
         }
-        
+
         public ViewCell Create(int obstacleType)
         {
-            var obstacleConfig = _configViewObstacle.FindObstacleConfig(obstacleType);
-            return _factoryViewCell.Create(_configViewObstacle.ObstacleLayer, obstacleConfig.spriteObstacle);
-            
+            ObstacleViewConfig obstacleConfig = _configViewObstacle.FindObstacleConfig(
+                obstacleType
+            );
+            return _factoryViewCell.Create(
+                _configViewObstacle.ObstacleLayer,
+                obstacleConfig.spriteObstacle
+            );
         }
     }
 }

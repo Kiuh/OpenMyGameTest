@@ -11,12 +11,15 @@ namespace App.Scripts.Scenes.SceneHeroes.Features.Grid.LevelInfo.Serializable
 
         private readonly List<ICellObstacle> _obstacles = new();
 
-        public LevelGridInfo(Vector2Int size, IEnumerable<ICellObstacle> obstacles, IUnitInfo unitInfo)
+        public LevelGridInfo(
+            Vector2Int size,
+            IEnumerable<ICellObstacle> obstacles,
+            IUnitInfo unitInfo
+        )
         {
             Size = size;
             _obstacles.AddRange(obstacles);
             Unit = unitInfo;
         }
-    
     }
 }

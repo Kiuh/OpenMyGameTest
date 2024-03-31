@@ -7,9 +7,9 @@ namespace App.Scripts.Scenes.SceneHeroes.Features.Grid.LevelInfo
     public interface ILevelInfo
     {
         Vector2Int Size { get; }
-        
-        IEnumerable<ICellObstacle> Obstacles { get; } 
-        
+
+        IEnumerable<ICellObstacle> Obstacles { get; }
+
         IUnitInfo Unit { get; }
     }
 
@@ -18,7 +18,7 @@ namespace App.Scripts.Scenes.SceneHeroes.Features.Grid.LevelInfo
         Vector2Int CellPosition { get; }
         int Obstacle { get; }
     }
-    
+
     public interface IUnitInfo
     {
         Vector2Int CellPosition { get; }

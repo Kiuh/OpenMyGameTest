@@ -10,13 +10,13 @@ namespace App.Scripts.Features.FieldSizeProvider
         {
             _camera = camera;
         }
-        
+
         public Rect GetFieldRect()
         {
             Vector2 pos = _camera.transform.position;
-            var cameraOrthographicSize = _camera.orthographicSize;
-            var size = new Vector2(_camera.aspect * cameraOrthographicSize, cameraOrthographicSize);
-            
+            float cameraOrthographicSize = _camera.orthographicSize;
+            Vector2 size = new(_camera.aspect * cameraOrthographicSize, cameraOrthographicSize);
+
             return new Rect(pos - size, size * 2);
         }
     }

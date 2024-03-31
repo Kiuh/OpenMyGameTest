@@ -10,8 +10,8 @@ namespace App.Scripts.Modules.Grid
         public int Height => _size.y;
 
         public Vector2Int Size => _size;
-        
-        private  Vector2Int _size;
+
+        private Vector2Int _size;
         private T[][] _matrix;
 
         public Grid(Vector2Int size)
@@ -25,14 +25,14 @@ namespace App.Scripts.Modules.Grid
             {
                 return;
             }
-            
-            _size = size;
-           _matrix = new T[size.y][];
 
-           for (int i = 0; i < _size.y; i++)
-           {
-               _matrix[i] = new T[_size.x];
-           }
+            _size = size;
+            _matrix = new T[size.y][];
+
+            for (int i = 0; i < _size.y; i++)
+            {
+                _matrix[i] = new T[_size.x];
+            }
         }
 
         public void Clear()
@@ -45,24 +45,16 @@ namespace App.Scripts.Modules.Grid
                 }
             }
         }
-        
+
         public T this[int x, int y]
         {
-            get
-            {
-                return _matrix[y][x];
-            }
-
-            set
-            {
-                _matrix[y][x] = value;
-            }
+            get => _matrix[y][x];
+            set => _matrix[y][x] = value;
         }
 
         public T this[Vector2Int index]
         {
             get => this[index.x, index.y];
-
             set => this[index.x, index.y] = value;
         }
 
@@ -73,8 +65,16 @@ namespace App.Scripts.Modules.Grid
 
         public bool Equals(Grid<T> other)
         {
-            if (ReferenceEquals(null, other)) return false;
-            if (ReferenceEquals(this, other)) return true;
+            if (ReferenceEquals(null, other))
+            {
+                return false;
+            }
+
+            if (ReferenceEquals(this, other))
+            {
+                return true;
+            }
+
             return _size.Equals(other._size) && EqualsMatrix(_matrix, other._matrix);
         }
 
@@ -89,7 +89,7 @@ namespace App.Scripts.Modules.Grid
             {
                 return false;
             }
-            
+
             for (int i = 0; i < matrix.Length; i++)
             {
                 for (int j = 0; j < matrix[0].Length; j++)
@@ -100,16 +100,28 @@ namespace App.Scripts.Modules.Grid
                     }
                 }
             }
-            
+
             return true;
         }
 
         public override bool Equals(object obj)
         {
-            if (ReferenceEquals(null, obj)) return false;
-            if (ReferenceEquals(this, obj)) return true;
-            if (obj.GetType() != this.GetType()) return false;
-            return Equals((Grid<T>) obj);
+            if (ReferenceEquals(null, obj))
+            {
+                return false;
+            }
+
+            if (ReferenceEquals(this, obj))
+            {
+                return true;
+            }
+
+            if (obj.GetType() != GetType())
+            {
+                return false;
+            }
+
+            return Equals((Grid<T>)obj);
         }
 
         public override int GetHashCode()
@@ -119,13 +131,13 @@ namespace App.Scripts.Modules.Grid
 
         public override string ToString()
         {
-            var buffer = new StringBuilder();
+            StringBuilder buffer = new();
 
             for (int i = 0; i < Height; i++)
             {
-                buffer.AppendLine(string.Join(' ', _matrix[i]));
+                _ = buffer.AppendLine(string.Join(' ', _matrix[i]));
             }
-            
+
             return buffer.ToString();
         }
     }

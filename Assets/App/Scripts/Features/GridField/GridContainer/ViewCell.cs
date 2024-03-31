@@ -7,7 +7,7 @@ namespace App.Scripts.Features.GridField.GridContainer
     {
         private IViewGridContainer _viewGridContainer;
         public abstract void SetSize(float size);
-        private float Layer { get;set; }
+        private float Layer { get; set; }
 
         public void Initialize(float layer)
         {
@@ -18,7 +18,7 @@ namespace App.Scripts.Features.GridField.GridContainer
         {
             _viewGridContainer = viewGridContainer;
         }
-        
+
         public void SetLayerPosition(Vector2 gridToPosition)
         {
             Vector3 pos = gridToPosition;
@@ -33,11 +33,8 @@ namespace App.Scripts.Features.GridField.GridContainer
 
         public override void Remove()
         {
-            if (_viewGridContainer != null)
-            {
-                _viewGridContainer.RemoveView(this);
-            }
-            
+            _viewGridContainer?.RemoveView(this);
+
             base.Remove();
         }
 

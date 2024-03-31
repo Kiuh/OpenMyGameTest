@@ -12,18 +12,21 @@ namespace App.Scripts.Scenes.SceneHeroes.Features.LevelNavigation.Systems
         private readonly IViewSwitchNavigator _viewSwitchNavigator;
         public SystemContext Context { get; set; }
 
-        public SystemRequestUpdateLevel(IServiceLevelProvider serviceLevelProvider, IViewSwitchNavigator viewSwitchNavigator)
+        public SystemRequestUpdateLevel(
+            IServiceLevelProvider serviceLevelProvider,
+            IViewSwitchNavigator viewSwitchNavigator
+        )
         {
             _serviceLevelProvider = serviceLevelProvider;
             _viewSwitchNavigator = viewSwitchNavigator;
         }
-        
+
         public void Init()
         {
-            var componentLevelIndex = new ComponentLevelIndex();
+            ComponentLevelIndex componentLevelIndex = new();
             Context.Data.SetComponent(componentLevelIndex);
             GenerateRequest(componentLevelIndex);
-            
+
             _viewSwitchNavigator.ChangeLevel += OnChangeSwitch;
         }
 
@@ -38,12 +41,14 @@ namespace App.Scripts.Scenes.SceneHeroes.Features.LevelNavigation.Systems
             {
                 return;
             }
-            
-            var levelIndex = Context.Data.GetComponent<ComponentLevelIndex>();
+
+            ComponentLevelIndex levelIndex = Context.Data.GetComponent<ComponentLevelIndex>();
 
             int nextLevelIndex = levelIndex.Index;
-            
-            foreach (var requestUpdate in Context.Signals.GetComponents<RequestUpdateLevelIndex>())
+
+            foreach (
+                RequestUpdateLevelIndex requestUpdate in Context.Signals.GetComponents<RequestUpdateLevelIndex>()
+            )
             {
                 nextLevelIndex += requestUpdate.ChangeIndex;
             }
@@ -57,21 +62,23 @@ namespace App.Scripts.Scenes.SceneHeroes.Features.LevelNavigation.Systems
             {
                 nextLevelIndex = 0;
             }
-            
+
             if (nextLevelIndex == levelIndex.Index)
             {
                 return;
             }
-            
+
             levelIndex.Index = nextLevelIndex;
 
             GenerateRequest(levelIndex);
         }
-        
+
         private void GenerateRequest(ComponentLevelIndex componentLevelIndex)
         {
-            var levelInfo = _serviceLevelProvider.GetLevel(componentLevelIndex.Index);
-            
+            Grid.LevelInfo.ILevelInfo levelInfo = _serviceLevelProvider.GetLevel(
+                componentLevelIndex.Index
+            );
+
             Context.Signals.AddComponent(new ComponentRequestRebuildLevel(levelInfo));
         }
 

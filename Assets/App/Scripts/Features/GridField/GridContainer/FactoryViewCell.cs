@@ -11,14 +11,14 @@ namespace App.Scripts.Features.GridField.GridContainer
         {
             _prefab = prefab;
         }
-        
+
         public ViewCellSpriteRender Create(float layer, Sprite sprite)
         {
-            var viewObstacle = Object.Instantiate(_prefab);
-            
+            ViewCellSpriteRender viewObstacle = Object.Instantiate(_prefab);
+
             viewObstacle.Initialize(layer);
             viewObstacle.SetupSprite(sprite);
-            
+
             return viewObstacle;
         }
 

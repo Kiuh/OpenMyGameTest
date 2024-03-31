@@ -44,7 +44,7 @@ namespace App.Scripts.Modules.StateMachine
             _currentState.Setup(this);
 
             await transition.ProcessEnter(_currentState);
-            
+
             _changingState = false;
         }
 
@@ -57,7 +57,7 @@ namespace App.Scripts.Modules.StateMachine
 
             _currentState.Update();
 
-            foreach (var transition in _currentState.Transitions)
+            foreach (ITransition transition in _currentState.Transitions)
             {
                 if (transition.CanTransit(_currentState))
                 {
@@ -75,7 +75,7 @@ namespace App.Scripts.Modules.StateMachine
                 return;
             }
 
-            foreach (var transition in _currentState.Transitions)
+            foreach (ITransition transition in _currentState.Transitions)
             {
                 if (transition is ITransitionTrigger<T> transitionTrigger)
                 {

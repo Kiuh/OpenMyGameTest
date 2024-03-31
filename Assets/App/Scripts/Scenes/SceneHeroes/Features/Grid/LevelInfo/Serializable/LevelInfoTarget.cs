@@ -10,7 +10,7 @@ namespace App.Scripts.Scenes.SceneHeroes.Features.Grid.LevelInfo.Serializable
     {
         public Place gridSize;
 
-        public List<ObstacleSerializable> Obstacles = new ();
+        public List<ObstacleSerializable> Obstacles = new();
 
         public Place PlaceUnit;
         public UnitType UnitType;
@@ -28,5 +28,4 @@ namespace App.Scripts.Scenes.SceneHeroes.Features.Grid.LevelInfo.Serializable
         public Vector2Int CellPosition => Place.ToVector2Int();
         public int Obstacle => ObstacleType;
     }
-
 }

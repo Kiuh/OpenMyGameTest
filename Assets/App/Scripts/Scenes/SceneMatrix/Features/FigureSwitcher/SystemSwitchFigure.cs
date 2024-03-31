@@ -11,12 +11,15 @@ namespace App.Scripts.Scenes.SceneMatrix.Features.FigureSwitcher
         private readonly IViewSwitchNavigator _viewSwitchNavigator;
         public SystemContext Context { get; set; }
 
-        public SystemSwitchFigure(IFigureProvider figureProvider, IViewSwitchNavigator viewSwitchNavigator)
+        public SystemSwitchFigure(
+            IFigureProvider figureProvider,
+            IViewSwitchNavigator viewSwitchNavigator
+        )
         {
             _figureProvider = figureProvider;
             _viewSwitchNavigator = viewSwitchNavigator;
         }
-        
+
         public void Init()
         {
             _viewSwitchNavigator.ChangeLevel += SwitchSwitch;
@@ -26,8 +29,9 @@ namespace App.Scripts.Scenes.SceneMatrix.Features.FigureSwitcher
 
         private void SwitchSwitch(int index)
         {
-            var currentFigure = Context.Data.GetComponent<ComponentCurrentFigure>();
-            var nextIndex = currentFigure.figureIndex + index;
+            ComponentCurrentFigure currentFigure =
+                Context.Data.GetComponent<ComponentCurrentFigure>();
+            int nextIndex = currentFigure.figureIndex + index;
 
             if (nextIndex >= _figureProvider.TotalFiguresCount)
             {
@@ -46,16 +50,15 @@ namespace App.Scripts.Scenes.SceneMatrix.Features.FigureSwitcher
 
         private void SetupFigure(int currentFigureFigureIndex)
         {
-            Context.Signals.SetComponent(new RequestUpdateFigure
-            {
-                Figure = _figureProvider.GetFigure(currentFigureFigureIndex)
-            });
+            Context.Signals.SetComponent(
+                new RequestUpdateFigure
+                {
+                    Figure = _figureProvider.GetFigure(currentFigureFigureIndex)
+                }
+            );
         }
 
-        public void Update(float dt)
-        {
-            
-        }
+        public void Update(float dt) { }
 
         public void Cleanup()
         {

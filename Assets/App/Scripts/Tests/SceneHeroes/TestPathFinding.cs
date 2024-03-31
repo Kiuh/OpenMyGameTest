@@ -24,27 +24,28 @@ namespace Tests.SceneHeroes
         [TestCase("test_field_path(9)")]
         public void TestPathFindingSimplePasses(string testData)
         {
-            var serviceUnitNavigator = new ServiceUnitNavigator();
+            ServiceUnitNavigator serviceUnitNavigator = new();
 
-            var testCaseText = File.ReadAllText(string.Format(PathTest, testData));
+            string testCaseText = File.ReadAllText(string.Format(PathTest, testData));
 
-            var serializer = new JsonConverter();
+            JsonConverter serializer = new();
 
-            var testCase = serializer.Deserialize<LevelInfoTarget>(testCaseText);
+            LevelInfoTarget testCase = serializer.Deserialize<LevelInfoTarget>(testCaseText);
 
-            var grid = new Grid<int>(testCase.gridSize.ToVector2Int());
+            Grid<int> grid = new(testCase.gridSize.ToVector2Int());
 
-            foreach (var obstacle in testCase.Obstacles)
+            foreach (ObstacleSerializable obstacle in testCase.Obstacles)
             {
                 grid[obstacle.Place.ToVector2Int()] = obstacle.ObstacleType;
             }
 
-            var path = serviceUnitNavigator.FindPath(
-                testCase.UnitType,
-                testCase.PlaceUnit.ToVector2Int(),
-                testCase.target.ToVector2Int(),
-                grid
-            );
+            System.Collections.Generic.List<UnityEngine.Vector2Int> path =
+                serviceUnitNavigator.FindPath(
+                    testCase.UnitType,
+                    testCase.PlaceUnit.ToVector2Int(),
+                    testCase.target.ToVector2Int(),
+                    grid
+                );
 
             if (testCase.targetStepCount < 0 && path is null)
             {

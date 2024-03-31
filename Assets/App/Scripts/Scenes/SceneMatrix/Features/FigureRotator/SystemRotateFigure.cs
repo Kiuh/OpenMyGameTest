@@ -12,12 +12,15 @@ namespace App.Scripts.Scenes.SceneMatrix.Features.FigureRotator
         private readonly IFigureRotator _figureRotator;
         public SystemContext Context { get; set; }
 
-        public SystemRotateFigure(IViewSwitchNavigator switchNavigator, IFigureRotator figureRotator)
+        public SystemRotateFigure(
+            IViewSwitchNavigator switchNavigator,
+            IFigureRotator figureRotator
+        )
         {
             _switchNavigator = switchNavigator;
             _figureRotator = figureRotator;
         }
-        
+
         public void Init()
         {
             _switchNavigator.ChangeLevel += RotateFigure;
@@ -25,20 +28,14 @@ namespace App.Scripts.Scenes.SceneMatrix.Features.FigureRotator
 
         private void RotateFigure(int rotateIndex)
         {
-            var grid = Context.Data.GetComponent<Grid<bool>>();
+            Grid<bool> grid = Context.Data.GetComponent<Grid<bool>>();
 
-            var nextGrid = _figureRotator.RotateFigure(grid, rotateIndex);
-            
-            Context.Signals.SetComponent(new RequestUpdateFigure
-            {
-                Figure = nextGrid
-            });
-            
+            Grid<bool> nextGrid = _figureRotator.RotateFigure(grid, rotateIndex);
+
+            Context.Signals.SetComponent(new RequestUpdateFigure { Figure = nextGrid });
         }
 
-        public void Update(float dt)
-        {
-        }
+        public void Update(float dt) { }
 
         public void Cleanup()
         {

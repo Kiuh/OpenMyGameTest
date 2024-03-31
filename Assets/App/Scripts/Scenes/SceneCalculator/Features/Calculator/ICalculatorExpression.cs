@@ -8,7 +8,7 @@ namespace App.Scripts.Scenes.SceneCalculator.Features.Calculator
         /// <param name="expression"></param>
         /// <returns></returns>
         int Execute(string expression);
-        
+
         /// <summary>
         /// устанавливает переменную и выражение для нее внутри калькулятора, при обращении по этому ключу
         /// будет вычисляться это выражение
@@ -16,7 +16,7 @@ namespace App.Scripts.Scenes.SceneCalculator.Features.Calculator
         /// <param name="expressionKey"></param>
         /// <param name="expression"></param>
         void SetExpression(string expressionKey, string expression);
-        
+
         /// <summary>
         /// запрашиваем выражение по ключу и выполняем его
         /// </summary>

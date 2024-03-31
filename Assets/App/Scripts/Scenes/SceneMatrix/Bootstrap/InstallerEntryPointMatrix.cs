@@ -8,7 +8,10 @@ namespace App.Scripts.Scenes.SceneMatrix.Bootstrap
     {
         protected override void OnCompleteBuildGraph(GraphStates graphStates)
         {
-            var initState = GetNode(graphStates, KeyGameStates.Initialize);
+            Modules.StateMachine.States.StateStepContainer initState = GetNode(
+                graphStates,
+                KeyGameStates.Initialize
+            );
             initState.AddStep(Container.CreateInstance<StepInitializeGridView>());
         }
     }

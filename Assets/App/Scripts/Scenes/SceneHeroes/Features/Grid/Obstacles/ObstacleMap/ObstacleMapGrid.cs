@@ -15,17 +15,19 @@ namespace App.Scripts.Scenes.SceneHeroes.Features.Grid.Obstacles.ObstacleMap
 
         public Grid<int> ObstacleMap => _obstacles;
 
-        
-        public ObstacleMapGrid(IViewGridContainer viewGridContainer, IFactory<int, ViewCell> factoryViewObstacle)
+        public ObstacleMapGrid(
+            IViewGridContainer viewGridContainer,
+            IFactory<int, ViewCell> factoryViewObstacle
+        )
         {
             _viewGridContainer = viewGridContainer;
             _factoryViewObstacle = factoryViewObstacle;
         }
-        
+
         public void UpdateField(Vector2Int levelInfoSize)
         {
             ClearField();
-            
+
             _obstacles = new Grid<int>(levelInfoSize);
             _obstaclesViews = new Grid<ViewCell>(levelInfoSize);
         }
@@ -36,13 +38,13 @@ namespace App.Scripts.Scenes.SceneHeroes.Features.Grid.Obstacles.ObstacleMap
             {
                 return;
             }
-            
+
             for (int i = 0; i < _obstaclesViews.Height; i++)
             {
                 for (int j = 0; j < _obstaclesViews.Width; j++)
                 {
                     ClearView(new Vector2Int(j, i));
-                }   
+                }
             }
         }
 
@@ -56,7 +58,6 @@ namespace App.Scripts.Scenes.SceneHeroes.Features.Grid.Obstacles.ObstacleMap
             return _obstacles[cellIndex];
         }
 
-
         public int GetAt(int i, int j)
         {
             return _obstacles[j, i];
@@ -65,8 +66,8 @@ namespace App.Scripts.Scenes.SceneHeroes.Features.Grid.Obstacles.ObstacleMap
         public void SetObstacle(Vector2Int cellPosition, int obstacle)
         {
             ClearView(cellPosition);
-            
-            var view = _factoryViewObstacle.Create(obstacle);
+
+            ViewCell view = _factoryViewObstacle.Create(obstacle);
             _obstaclesViews[cellPosition] = view;
             _obstacles[cellPosition] = obstacle;
             _viewGridContainer.AddViewCell(view, cellPosition);
@@ -78,7 +79,7 @@ namespace App.Scripts.Scenes.SceneHeroes.Features.Grid.Obstacles.ObstacleMap
             {
                 return;
             }
-            
+
             _obstaclesViews[cellPosition].Remove();
             _obstaclesViews[cellPosition] = null;
         }

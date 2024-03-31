@@ -36,7 +36,7 @@ namespace Tests.SceneMatrix
 
         private void TestFigureParsing(string key, Grid<bool> expected)
         {
-            var text = TestTools.LoadMatrixFromKey(key);
+            string text = TestTools.LoadMatrixFromKey(key);
 
             Grid<bool> grid = _figureParser.ParseFile(text);
 
@@ -47,11 +47,15 @@ namespace Tests.SceneMatrix
         public void TestFileLength()
         {
             string errorMessage = "Incorrect number of lines in file.";
-            var text1 = TestTools.LoadMatrixFromKey("too_short_block");
-            var text2 = TestTools.LoadMatrixFromKey("too_long_block");
+            string text1 = TestTools.LoadMatrixFromKey("too_short_block");
+            string text2 = TestTools.LoadMatrixFromKey("too_long_block");
 
-            var ex1 = Assert.Throws<ExceptionParseFigure>(() => _figureParser.ParseFile(text1));
-            var ex2 = Assert.Throws<ExceptionParseFigure>(() => _figureParser.ParseFile(text2));
+            ExceptionParseFigure ex1 = Assert.Throws<ExceptionParseFigure>(
+                () => _figureParser.ParseFile(text1)
+            );
+            ExceptionParseFigure ex2 = Assert.Throws<ExceptionParseFigure>(
+                () => _figureParser.ParseFile(text2)
+            );
 
             Assert.AreEqual(errorMessage, ex1.Message);
             Assert.AreEqual(errorMessage, ex2.Message);
@@ -61,11 +65,15 @@ namespace Tests.SceneMatrix
         public void TestIncorrectDataTypes()
         {
             string errorMessage = "Parsing data have incorrect type.";
-            var text1 = TestTools.LoadMatrixFromKey("incorrect_size_type_block");
-            var text2 = TestTools.LoadMatrixFromKey("incorrect_index_type_block");
+            string text1 = TestTools.LoadMatrixFromKey("incorrect_size_type_block");
+            string text2 = TestTools.LoadMatrixFromKey("incorrect_index_type_block");
 
-            var ex1 = Assert.Throws<ExceptionParseFigure>(() => _figureParser.ParseFile(text1));
-            var ex2 = Assert.Throws<ExceptionParseFigure>(() => _figureParser.ParseFile(text2));
+            ExceptionParseFigure ex1 = Assert.Throws<ExceptionParseFigure>(
+                () => _figureParser.ParseFile(text1)
+            );
+            ExceptionParseFigure ex2 = Assert.Throws<ExceptionParseFigure>(
+                () => _figureParser.ParseFile(text2)
+            );
 
             Assert.AreEqual(errorMessage, ex1.Message);
             Assert.AreEqual(errorMessage, ex2.Message);
@@ -75,11 +83,15 @@ namespace Tests.SceneMatrix
         public void TestIncorrectSize()
         {
             string errorMessage = "Incorrect figure matrix size.";
-            var text1 = TestTools.LoadMatrixFromKey("incorrect_size_block_1");
-            var text2 = TestTools.LoadMatrixFromKey("incorrect_size_block_2");
+            string text1 = TestTools.LoadMatrixFromKey("incorrect_size_block_1");
+            string text2 = TestTools.LoadMatrixFromKey("incorrect_size_block_2");
 
-            var ex1 = Assert.Throws<ExceptionParseFigure>(() => _figureParser.ParseFile(text1));
-            var ex2 = Assert.Throws<ExceptionParseFigure>(() => _figureParser.ParseFile(text2));
+            ExceptionParseFigure ex1 = Assert.Throws<ExceptionParseFigure>(
+                () => _figureParser.ParseFile(text1)
+            );
+            ExceptionParseFigure ex2 = Assert.Throws<ExceptionParseFigure>(
+                () => _figureParser.ParseFile(text2)
+            );
 
             Assert.AreEqual(errorMessage, ex1.Message);
             Assert.AreEqual(errorMessage, ex2.Message);
@@ -89,11 +101,15 @@ namespace Tests.SceneMatrix
         public void TestIncorrectIndexes()
         {
             string errorMessage = "Cell index out of range.";
-            var text1 = TestTools.LoadMatrixFromKey("incorrect_index_block_1");
-            var text2 = TestTools.LoadMatrixFromKey("incorrect_index_block_2");
+            string text1 = TestTools.LoadMatrixFromKey("incorrect_index_block_1");
+            string text2 = TestTools.LoadMatrixFromKey("incorrect_index_block_2");
 
-            var ex1 = Assert.Throws<ExceptionParseFigure>(() => _figureParser.ParseFile(text1));
-            var ex2 = Assert.Throws<ExceptionParseFigure>(() => _figureParser.ParseFile(text2));
+            ExceptionParseFigure ex1 = Assert.Throws<ExceptionParseFigure>(
+                () => _figureParser.ParseFile(text1)
+            );
+            ExceptionParseFigure ex2 = Assert.Throws<ExceptionParseFigure>(
+                () => _figureParser.ParseFile(text2)
+            );
 
             Assert.AreEqual(errorMessage, ex1.Message);
             Assert.AreEqual(errorMessage, ex2.Message);

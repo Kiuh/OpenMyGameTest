@@ -7,17 +7,17 @@ namespace App.Scripts.Features.Scenes.SceneSelector.View.ViewSwitcher
 {
     public class ViewLabelButton : MonoBehaviour
     {
-        [SerializeField] private Button button;
-        [SerializeField] private TextMeshProUGUI textLabel;
+        [SerializeField]
+        private Button button;
 
-        public event Action OnClick; 
+        [SerializeField]
+        private TextMeshProUGUI textLabel;
+
+        public event Action OnClick;
 
         private void Awake()
         {
-            button.onClick.AddListener(() =>
-            {
-                OnClick?.Invoke();
-            });
+            button.onClick.AddListener(() => OnClick?.Invoke());
         }
 
         public void UpdateLabel(string label)

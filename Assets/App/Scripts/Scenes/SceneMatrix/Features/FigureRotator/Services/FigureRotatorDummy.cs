@@ -13,21 +13,23 @@ namespace App.Scripts.Scenes.SceneMatrix.Features.FigureRotator.Services
             Dictionary<Vector2Int, bool> rotatedMatrix = new();
 
             // Create rotated matrix
-            foreach (var index in IterateMatrix(Vector2Int.zero, grid.Size))
+            foreach (Vector2Int index in IterateMatrix(Vector2Int.zero, grid.Size))
             {
-                var rotatedIndex = RotateVector2Int(index, rotations);
+                Vector2Int rotatedIndex = RotateVector2Int(index, rotations);
                 rotatedMatrix.Add(rotatedIndex, grid[index]);
             }
 
             // Create new grid
-            var newSize = RotateVector2Int(grid.Size, rotations);
+            Vector2Int newSize = RotateVector2Int(grid.Size, rotations);
             newSize = AbsVector2Int(newSize);
-            var rotated = new Grid<bool>(newSize);
+            Grid<bool> rotated = new(newSize);
 
             // Fill new grid
-            var orderedIndexes = rotatedMatrix.Keys.OrderBy(v => v.x + v.y);
-            var shift = AbsVector2Int(orderedIndexes.First());
-            foreach (var index in orderedIndexes)
+            IOrderedEnumerable<Vector2Int> orderedIndexes = rotatedMatrix.Keys.OrderBy(v =>
+                v.x + v.y
+            );
+            Vector2Int shift = AbsVector2Int(orderedIndexes.First());
+            foreach (Vector2Int index in orderedIndexes)
             {
                 rotated[index + shift] = rotatedMatrix[index];
             }
@@ -48,7 +50,7 @@ namespace App.Scripts.Scenes.SceneMatrix.Features.FigureRotator.Services
 
         private Vector2Int RotateVector2Int(Vector2Int vector, int count)
         {
-            return (count) switch
+            return count switch
             {
                 0 => vector,
                 1 => new Vector2Int(vector.y, -vector.x),

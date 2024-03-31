@@ -13,10 +13,12 @@ namespace App.Scripts.Scenes.SceneCalculator.Features.Process
         private readonly ICalculatorExpression _calculatorExpression;
         public SystemContext Context { get; set; }
 
-        public SystemProcessCalculator(IViewLog viewLog, 
-            IViewInputExpression inputExpression, 
-            IViewInputExpression executeExpression, 
-            ICalculatorExpression calculatorExpression)
+        public SystemProcessCalculator(
+            IViewLog viewLog,
+            IViewInputExpression inputExpression,
+            IViewInputExpression executeExpression,
+            ICalculatorExpression calculatorExpression
+        )
         {
             _viewLog = viewLog;
             _inputExpression = inputExpression;
@@ -28,7 +30,6 @@ namespace App.Scripts.Scenes.SceneCalculator.Features.Process
         {
             _inputExpression.OnApply += OnSetExpression;
             _executeExpression.OnApply += OnApplyExpression;
-            
         }
 
         private void OnSetExpression()
@@ -40,17 +41,15 @@ namespace App.Scripts.Scenes.SceneCalculator.Features.Process
         private void OnApplyExpression()
         {
             int result = _calculatorExpression.Execute(_executeExpression.Expression);
-            LogMessage($"Execute expression {_executeExpression.Expression} = {result.ToString()}");
+            LogMessage($"Execute expression {_executeExpression.Expression} = {result}");
         }
-        
+
         private void LogMessage(string message)
         {
             _viewLog.AddLog(message);
         }
 
-        public void Update(float dt)
-        {
-        }
+        public void Update(float dt) { }
 
         public void Cleanup()
         {

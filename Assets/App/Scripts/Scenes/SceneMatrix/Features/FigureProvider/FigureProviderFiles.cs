@@ -4,7 +4,6 @@ using System.IO;
 using App.Scripts.Modules.Grid;
 using App.Scripts.Scenes.SceneMatrix.Features.FigureProvider.Parser;
 using App.Scripts.Scenes.SceneMatrix.Features.FigureProvider.ProviderResource;
-using UnityEngine;
 
 namespace App.Scripts.Scenes.SceneMatrix.Features.FigureProvider
 {
@@ -16,7 +15,11 @@ namespace App.Scripts.Scenes.SceneMatrix.Features.FigureProvider
 
         public int TotalFiguresCount => _config.fileKeys.Count;
 
-        public FigureProviderFiles(Config config, IFigureParser parser, IProviderResource providerResource)
+        public FigureProviderFiles(
+            Config config,
+            IFigureParser parser,
+            IProviderResource providerResource
+        )
         {
             _config = config;
             _parser = parser;
@@ -25,14 +28,13 @@ namespace App.Scripts.Scenes.SceneMatrix.Features.FigureProvider
 
         public Grid<bool> GetFigure(int index)
         {
-            var fileKey = _config.fileKeys[index];
-            var filePath = Path.Combine(_config.pathLevels, fileKey);
+            string fileKey = _config.fileKeys[index];
+            string filePath = Path.Combine(_config.pathLevels, fileKey);
 
-            var textAsset = _providerResource.LoadTextResource(filePath);
+            string textAsset = _providerResource.LoadTextResource(filePath);
             return _parser.ParseFile(textAsset);
         }
 
-        
         [Serializable]
         public class Config
         {

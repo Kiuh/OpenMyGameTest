@@ -12,25 +12,29 @@ namespace App.Scripts.Features.GridField.GridContainer.Step
         private readonly IFieldSizeProvider _fieldSizeProvider;
         private readonly Config _config;
 
-        public StepInitializeGridView(IViewGridContainer viewGridContainer, IFieldSizeProvider fieldSizeProvider, Config config)
+        public StepInitializeGridView(
+            IViewGridContainer viewGridContainer,
+            IFieldSizeProvider fieldSizeProvider,
+            Config config
+        )
         {
             _viewGridContainer = viewGridContainer;
             _fieldSizeProvider = fieldSizeProvider;
             _config = config;
         }
-        
+
         public override Task OnEnter()
         {
-            var rect = _fieldSizeProvider.GetFieldRect();
+            Rect rect = _fieldSizeProvider.GetFieldRect();
 
-            var fieldPos = rect.position + rect.size * _config.relativePosition;
-            var fieldRect = new Rect(fieldPos, rect.size * _config.relativeFieldSize);
-            
+            Vector2 fieldPos = rect.position + (rect.size * _config.relativePosition);
+            Rect fieldRect = new(fieldPos, rect.size * _config.relativeFieldSize);
+
             _viewGridContainer.SetupFieldSize(fieldRect);
             CompleteStep();
             return base.OnEnter();
         }
-        
+
         [Serializable]
         public class Config
         {

@@ -15,73 +15,81 @@ namespace App.Scripts.Modules.SceneContainer.ServiceLocator
         {
             _bufferArguments = new List<object>();
         }
-        
-        public void SetServiceSelf<TService>(TService value)  where TService : class
+
+        public void SetServiceSelf<TService>(TService value)
+            where TService : class
         {
             SetService<TService, TService>(value);
         }
 
-        public void SetService<TBind, TService>(TService value) where TService : TBind
+        public void SetService<TBind, TService>(TService value)
+            where TService : TBind
             where TBind : class
         {
-            var container = FindContainer<TBind>();
+            Container container = FindContainer<TBind>();
 
             container.Add(value);
         }
-        
+
         public void SetServiceInterfaces<TService>(TService value)
             where TService : class
         {
-            var type = typeof(TService);
+            Type type = typeof(TService);
 
-            foreach (var interfaceType in type.GetInterfaces())
+            foreach (Type interfaceType in type.GetInterfaces())
             {
-                var container = FindContainer(interfaceType);
+                Container container = FindContainer(interfaceType);
                 container.Add(value);
             }
         }
 
-        public TBind Get<TBind>() where TBind : class
+        public TBind Get<TBind>()
+            where TBind : class
         {
-            var container = FindContainer<TBind>();
+            Container container = FindContainer<TBind>();
 
             return container.GetService<TBind>();
         }
 
-        public IEnumerable<TBind> GetServices<TBind>() where TBind : class
+        public IEnumerable<TBind> GetServices<TBind>()
+            where TBind : class
         {
-            var container = FindContainer<TBind>();
+            Container container = FindContainer<TBind>();
 
             return container.GetServices<TBind>();
         }
 
-        public T CreateInstance<T>(object[] arguments = null) where T : class
+        public T CreateInstance<T>(object[] arguments = null)
+            where T : class
         {
-            var buildType = typeof(T);
+            Type buildType = typeof(T);
 
             return BuildConstructorArguments(buildType, arguments) as T;
         }
-        
-        public T CreateInstanceWithArguments<T>(params object[] arguments) where T : class
+
+        public T CreateInstanceWithArguments<T>(params object[] arguments)
+            where T : class
         {
-            var buildType = typeof(T);
+            Type buildType = typeof(T);
 
             return BuildConstructorArguments(buildType, arguments) as T;
         }
 
         private object BuildConstructorArguments(Type type, object[] arguments)
         {
-            var constructors = type.GetConstructors();
+            ConstructorInfo[] constructors = type.GetConstructors();
 
             foreach (ConstructorInfo constructorInfo in constructors)
             {
-                var parameters = constructorInfo.GetParameters();
+                ParameterInfo[] parameters = constructorInfo.GetParameters();
 
-                var resolvedParams = GetResolvedParameters(parameters, arguments);
+                List<object> resolvedParams = GetResolvedParameters(parameters, arguments);
 
                 if (resolvedParams is null)
                 {
-                    Debug.LogError($"Cant resolve params for type {type.FullName} for constructor {constructorInfo}");
+                    Debug.LogError(
+                        $"Cant resolve params for type {type.FullName} for constructor {constructorInfo}"
+                    );
                     continue;
                 }
 
@@ -89,40 +97,42 @@ namespace App.Scripts.Modules.SceneContainer.ServiceLocator
             }
 
             Debug.LogError($"Cant resolve params for type {type.FullName}");
-            
+
             return null;
         }
 
-        private List<object> GetResolvedParameters(ParameterInfo[] parameterInfos, object[] arguments)
+        private List<object> GetResolvedParameters(
+            ParameterInfo[] parameterInfos,
+            object[] arguments
+        )
         {
-            var result = new List<object>();
+            List<object> result = new();
 
             _bufferArguments.Clear();
             if (arguments != null)
             {
                 _bufferArguments.AddRange(arguments);
             }
-            
+
             foreach (ParameterInfo parameterInfo in parameterInfos)
             {
-                var argument = FindFromArgument(parameterInfo, _bufferArguments);
+                object argument = FindFromArgument(parameterInfo, _bufferArguments);
 
                 if (argument != null)
                 {
                     result.Add(argument);
                     continue;
                 }
-                
-                var resolveParam = ResolveForType(parameterInfo.ParameterType);
+
+                object resolveParam = ResolveForType(parameterInfo.ParameterType);
 
                 if (resolveParam is null)
                 {
                     Debug.LogError($"Cant resolve type for {parameterInfo.ParameterType}");
                     return null;
                 }
-                
+
                 result.Add(resolveParam);
-                
             }
 
             return result;
@@ -132,8 +142,8 @@ namespace App.Scripts.Modules.SceneContainer.ServiceLocator
         {
             for (int i = 0; i < bufferArguments.Count; i++)
             {
-                var argument = bufferArguments[i];
-                
+                object argument = bufferArguments[i];
+
                 if (parameterInfo.ParameterType.IsInstanceOfType(argument))
                 {
                     bufferArguments.RemoveAt(i);
@@ -146,23 +156,24 @@ namespace App.Scripts.Modules.SceneContainer.ServiceLocator
 
         private object ResolveForType(Type resolveType)
         {
-            var selectType = resolveType;
+            Type selectType = resolveType;
 
-            var enumerableType = typeof(IEnumerable<>);
-            
-            var genericType = selectType
+            Type enumerableType = typeof(IEnumerable<>);
+
+            Type genericType = selectType
                 .GetInterfaces()
                 .Where(x => x.IsGenericType && x.GetGenericTypeDefinition() == enumerableType)
-                .Select(x => x.GetGenericArguments()[0]).FirstOrDefault();
+                .Select(x => x.GetGenericArguments()[0])
+                .FirstOrDefault();
 
             if (genericType != null)
             {
                 return ResolveEnumerable(genericType);
             }
-                
-            foreach (var serviceContainer in _containers)
+
+            foreach (KeyValuePair<Type, Container> serviceContainer in _containers)
             {
-                if (resolveType.IsAssignableFrom(serviceContainer.Key) )
+                if (resolveType.IsAssignableFrom(serviceContainer.Key))
                 {
                     return serviceContainer.Value.GetValue();
                 }
@@ -173,7 +184,7 @@ namespace App.Scripts.Modules.SceneContainer.ServiceLocator
 
         private IEnumerable<object> ResolveEnumerable(Type genericType)
         {
-            foreach (var serviceContainer in _containers)
+            foreach (KeyValuePair<Type, Container> serviceContainer in _containers)
             {
                 if (genericType.IsAssignableFrom(serviceContainer.Key))
                 {
@@ -184,19 +195,20 @@ namespace App.Scripts.Modules.SceneContainer.ServiceLocator
             return null;
         }
 
-        private Container FindContainer<T>() where T : class
+        private Container FindContainer<T>()
+            where T : class
         {
             return FindContainer(typeof(T));
         }
-        
+
         private Container FindContainer(Type typeBind)
         {
-            if (_containers.TryGetValue(typeBind, out var container))
+            if (_containers.TryGetValue(typeBind, out Container container))
             {
                 return container;
             }
 
-            var bindContainer = new Container();
+            Container bindContainer = new();
             _containers[typeBind] = bindContainer;
 
             return bindContainer;

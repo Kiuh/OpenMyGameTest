@@ -1,12 +1,8 @@
-using System;
-using System.IO;
 using App.Scripts.Modules.Systems;
-using App.Scripts.Scenes.SceneHeroes.Features.Grid;
 using App.Scripts.Scenes.SceneHeroes.Features.Grid.LevelInfo.Config;
 using App.Scripts.Scenes.SceneHeroes.Features.Grid.LevelInfo.Serializable;
 using App.Scripts.Scenes.SceneHeroes.Features.Grid.Obstacles.ObstacleMap;
 using App.Scripts.Scenes.SceneHeroes.Features.Units;
-using UnityEngine;
 using UnityEngine.UI;
 
 namespace App.Scripts.Scenes.SceneHeroes.Features.SaveField
@@ -18,13 +14,17 @@ namespace App.Scripts.Scenes.SceneHeroes.Features.SaveField
         private readonly IObstacleMap _obstacleMap;
         public SystemContext Context { get; set; }
 
-        public SystemSaveField(Button buttonSave, IServiceSaveField serviceSaveField, IObstacleMap obstacleMap)
+        public SystemSaveField(
+            Button buttonSave,
+            IServiceSaveField serviceSaveField,
+            IObstacleMap obstacleMap
+        )
         {
             _buttonSave = buttonSave;
             _serviceSaveField = serviceSaveField;
             _obstacleMap = obstacleMap;
         }
-        
+
         public void Init()
         {
             _buttonSave.onClick.AddListener(ProcessFieldSave);
@@ -38,10 +38,10 @@ namespace App.Scripts.Scenes.SceneHeroes.Features.SaveField
 
         private LevelInfoTarget BuildLevelModel()
         {
-            var fieldModel = new LevelInfoTarget();
+            LevelInfoTarget fieldModel = new();
 
-            var obstacles = _obstacleMap.ObstacleMap;
-            var unit = Context.Data.GetComponent<Unit>();
+            Modules.Grid.Grid<int> obstacles = _obstacleMap.ObstacleMap;
+            Unit unit = Context.Data.GetComponent<Unit>();
             fieldModel.gridSize = new Place(obstacles.Size);
 
             fieldModel.PlaceUnit = new Place(unit.CellPosition);
@@ -51,14 +51,16 @@ namespace App.Scripts.Scenes.SceneHeroes.Features.SaveField
             {
                 for (int j = 0; j < obstacles.Width; j++)
                 {
-                    var obstacleType = _obstacleMap.ObstacleMap[j, i];
+                    int obstacleType = _obstacleMap.ObstacleMap[j, i];
                     if (obstacleType != ObstacleType.None)
                     {
-                        fieldModel.Obstacles.Add(new ObstacleSerializable
-                        {
-                            Place = new Place(j, i),
-                            ObstacleType = obstacleType
-                        });
+                        fieldModel.Obstacles.Add(
+                            new ObstacleSerializable
+                            {
+                                Place = new Place(j, i),
+                                ObstacleType = obstacleType
+                            }
+                        );
                     }
                 }
             }
@@ -66,14 +68,11 @@ namespace App.Scripts.Scenes.SceneHeroes.Features.SaveField
             return fieldModel;
         }
 
-        public void Update(float dt)
-        {
-        }
+        public void Update(float dt) { }
 
         public void Cleanup()
         {
             _buttonSave.onClick.RemoveListener(ProcessFieldSave);
         }
-        
     }
 }

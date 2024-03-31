@@ -5,10 +5,7 @@ namespace App.Scripts.Modules.Systems
         public ComponentContainer Data { get; } = new ComponentContainer();
         public ComponentContainer Signals { get; } = new ComponentContainer();
 
-        public SystemContext()
-        {
-            
-        }
+        public SystemContext() { }
 
         public void Clean()
         {

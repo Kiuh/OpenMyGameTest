@@ -4,7 +4,7 @@ namespace App.Scripts.Modules.Factory
     {
         T Create();
     }
-    
+
     public interface IFactory<TParam, T>
     {
         T Create(TParam param);

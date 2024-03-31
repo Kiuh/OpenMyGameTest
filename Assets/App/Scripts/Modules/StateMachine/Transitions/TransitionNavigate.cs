@@ -5,8 +5,8 @@ namespace App.Scripts.Modules.StateMachine.Transitions
 {
     public class TransitionNavigate : ITransition
     {
-        public string NextNode { get;  set; }
-        
+        public string NextNode { get; set; }
+
         public virtual bool CanTransit(IState currentState)
         {
             return true;

@@ -13,10 +13,10 @@ namespace App.Scripts.Scenes.SceneHeroes.Features.SaveField
         {
             _config = config;
         }
-        
+
         public void SaveField(LevelInfoTarget fieldModel)
         {
-            var modelText = JsonConvert.SerializeObject(fieldModel);
+            string modelText = JsonConvert.SerializeObject(fieldModel);
             string savePath = FormSavePath();
             File.WriteAllText(savePath, modelText);
         }
@@ -38,8 +38,7 @@ namespace App.Scripts.Scenes.SceneHeroes.Features.SaveField
         {
             return string.Format(_config.savePath, _config.fileName, index.ToString());
         }
-        
-        
+
         [Serializable]
         public class Config
         {

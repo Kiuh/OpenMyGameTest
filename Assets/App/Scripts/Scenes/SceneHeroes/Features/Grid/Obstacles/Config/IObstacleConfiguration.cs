@@ -4,6 +4,6 @@ namespace App.Scripts.Scenes.SceneHeroes.Features.Grid.Obstacles.Config
 {
     public interface IObstacleConfiguration
     {
-        IEnumerable<int> AvailableObstacleTypes { get;  }
+        IEnumerable<int> AvailableObstacleTypes { get; }
     }
 }

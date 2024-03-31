@@ -10,19 +10,22 @@ namespace App.Scripts.Scenes.SceneCalculator.Bootstrap.Installers
 {
     public class InstallerSystemsCalculator : MonoInstaller
     {
-        [SerializeField] private ViewInputExpressionMono viewExpression;
-        [SerializeField] private ViewInputExpressionMono viewExecute;
-        
+        [SerializeField]
+        private ViewInputExpressionMono viewExpression;
+
+        [SerializeField]
+        private ViewInputExpressionMono viewExecute;
+
         protected override void OnInstallBindings()
         {
-            var systemGroup = new SystemsGroup();
+            SystemsGroup systemGroup = new();
 
-            var viewLog = Container.Get<IViewLog>();
-            var calculator = new CalculatorExpression();
-            systemGroup.AddSystem(new SystemProcessCalculator(viewLog, 
-                viewExpression,
-                viewExecute, calculator));
-            
+            IViewLog viewLog = Container.Get<IViewLog>();
+            CalculatorExpression calculator = new();
+            _ = systemGroup.AddSystem(
+                new SystemProcessCalculator(viewLog, viewExpression, viewExecute, calculator)
+            );
+
             Container.SetServiceSelf(systemGroup);
         }
     }

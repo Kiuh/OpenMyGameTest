@@ -8,12 +8,10 @@ namespace App.Scripts.Scenes.SceneHeroes.Features.GameInput.Services.Handlers
     {
         public void ProcessGridClick(SystemContext context, Vector2Int cellIndex)
         {
-            var unit = context.Data.GetComponent<Unit>();
+            Unit unit = context.Data.GetComponent<Unit>();
             unit.PlaceAt(cellIndex);
         }
 
-        public void Reset()
-        {
-        }
+        public void Reset() { }
     }
 }

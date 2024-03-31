@@ -5,7 +5,8 @@ namespace App.Scripts.Scenes.SceneHeroes.Features.PathFinding.PathLineDrawer
 {
     public class PathLineDrawerMono : MonoBehaviour, IPathLineDrawer
     {
-        [SerializeField] private LineRenderer lineRenderer;
+        [SerializeField]
+        private LineRenderer lineRenderer;
 
         private Vector3[] _points = new Vector3[10];
         private int _currentPoint;
@@ -22,7 +23,7 @@ namespace App.Scripts.Scenes.SceneHeroes.Features.PathFinding.PathLineDrawer
 
             if (_currentPoint >= _points.Length)
             {
-                var nextPoints = new Vector3[_points.Length * 2];
+                Vector3[] nextPoints = new Vector3[_points.Length * 2];
                 Array.Copy(_points, nextPoints, _points.Length);
                 _points = nextPoints;
             }

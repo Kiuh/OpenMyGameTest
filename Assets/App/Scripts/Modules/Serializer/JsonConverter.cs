@@ -13,7 +13,5 @@ namespace App.Scripts.Modules.Serializer
         {
             return JsonConvert.SerializeObject(value);
         }
-        
-        
     }
 }

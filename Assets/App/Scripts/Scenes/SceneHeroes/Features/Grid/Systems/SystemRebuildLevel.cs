@@ -17,16 +17,18 @@ namespace App.Scripts.Scenes.SceneHeroes.Features.Grid.Systems
         private IFactory<IUnitInfo, Unit> _factoryUnit;
         public SystemContext Context { get; set; }
 
-        public SystemRebuildLevel(IObstacleMap obstacleMap, IViewGridContainer viewGridContainer, IFactory<IUnitInfo, Unit> factoryUnit)
+        public SystemRebuildLevel(
+            IObstacleMap obstacleMap,
+            IViewGridContainer viewGridContainer,
+            IFactory<IUnitInfo, Unit> factoryUnit
+        )
         {
             _obstacleMap = obstacleMap;
             _viewGridContainer = viewGridContainer;
             _factoryUnit = factoryUnit;
         }
-        
-        public void Init()
-        {
-        }
+
+        public void Init() { }
 
         public void Update(float dt)
         {
@@ -35,7 +37,8 @@ namespace App.Scripts.Scenes.SceneHeroes.Features.Grid.Systems
                 return;
             }
 
-            var rebuildRequest = Context.Signals.GetComponent<ComponentRequestRebuildLevel>();
+            ComponentRequestRebuildLevel rebuildRequest =
+                Context.Signals.GetComponent<ComponentRequestRebuildLevel>();
             RebuildField(rebuildRequest.LevelInfo);
         }
 
@@ -51,16 +54,17 @@ namespace App.Scripts.Scenes.SceneHeroes.Features.Grid.Systems
             BuildUnit(levelInfo);
         }
 
-
-
         private void BuildObstacles(ILevelInfo levelInfo)
         {
             _viewGridContainer.UpdateGrid(levelInfo.Size);
             _obstacleMap.UpdateField(levelInfo.Size);
-            
+
             foreach (ICellObstacle levelInfoObstacle in levelInfo.Obstacles)
             {
-                _obstacleMap.SetObstacle(levelInfoObstacle.CellPosition, levelInfoObstacle.Obstacle);
+                _obstacleMap.SetObstacle(
+                    levelInfoObstacle.CellPosition,
+                    levelInfoObstacle.Obstacle
+                );
             }
 
             FillEmptyCells(levelInfo);
@@ -79,7 +83,7 @@ namespace App.Scripts.Scenes.SceneHeroes.Features.Grid.Systems
                 }
             }
         }
-        
+
         private void BuildUnit(ILevelInfo levelInfo)
         {
             Unit unit = _factoryUnit.Create(levelInfo.Unit);
@@ -87,8 +91,6 @@ namespace App.Scripts.Scenes.SceneHeroes.Features.Grid.Systems
             Context.Data.SetComponent(unit);
         }
 
-        public void Cleanup()
-        {
-        }
+        public void Cleanup() { }
     }
 }

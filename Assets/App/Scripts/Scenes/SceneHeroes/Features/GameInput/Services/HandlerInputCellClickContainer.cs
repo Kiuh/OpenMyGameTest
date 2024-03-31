@@ -7,12 +7,13 @@ namespace App.Scripts.Scenes.SceneHeroes.Features.GameInput.Services
 {
     public class HandlerInputCellClickContainer : IHandlerFieldClick, IHandlerInputSelector
     {
-        private readonly Dictionary<string, IHandlerFieldClick> _handlerMap = new ();
+        private readonly Dictionary<string, IHandlerFieldClick> _handlerMap = new();
         private IHandlerFieldClick _currentHandler;
 
         public IList<string> AvailableHandlers => _handlersKeys;
 
         private readonly List<string> _handlersKeys = new();
+
         public void AddHandler(string id, IHandlerFieldClick handlerFieldClick)
         {
             _handlersKeys.Add(id);
@@ -21,7 +22,7 @@ namespace App.Scripts.Scenes.SceneHeroes.Features.GameInput.Services
 
         public void ChangeHandler(string id)
         {
-            if (_handlerMap.TryGetValue(id, out var handler) is false)
+            if (_handlerMap.TryGetValue(id, out IHandlerFieldClick handler) is false)
             {
                 throw new Exception($"handler with {id} not found");
             }
@@ -40,13 +41,10 @@ namespace App.Scripts.Scenes.SceneHeroes.Features.GameInput.Services
         {
             ResetCurrentHandler();
         }
-        
+
         private void ResetCurrentHandler()
         {
-            if (_currentHandler != null)
-            {
-                _currentHandler.Reset();
-            }
+            _currentHandler?.Reset();
         }
     }
 }

@@ -14,18 +14,20 @@ namespace App.Scripts.Scenes.SceneHeroes.Features.GameInput.Systems
         private readonly IHandlerFieldClick _handlerFieldClick;
         public SystemContext Context { get; set; }
 
-        public SystemFieldClick(Camera camera, IViewGridContainer viewGridContainer, IObstacleMap obstacleMap, 
-            IHandlerFieldClick handlerFieldClick)
+        public SystemFieldClick(
+            Camera camera,
+            IViewGridContainer viewGridContainer,
+            IObstacleMap obstacleMap,
+            IHandlerFieldClick handlerFieldClick
+        )
         {
             _camera = camera;
             _viewGridContainer = viewGridContainer;
             _obstacleMap = obstacleMap;
             _handlerFieldClick = handlerFieldClick;
         }
-        
-        public void Init()
-        {
-        }
+
+        public void Init() { }
 
         public void Update(float dt)
         {
@@ -33,7 +35,7 @@ namespace App.Scripts.Scenes.SceneHeroes.Features.GameInput.Systems
             {
                 return;
             }
-            
+
             Vector2Int cellIndex = GetClickCell();
 
             if (IsValidCell(cellIndex))
@@ -44,7 +46,7 @@ namespace App.Scripts.Scenes.SceneHeroes.Features.GameInput.Systems
 
         private Vector2Int GetClickCell()
         {
-            var worldClick = _camera.ScreenToWorldPoint(Input.mousePosition);
+            Vector3 worldClick = _camera.ScreenToWorldPoint(Input.mousePosition);
             Vector2Int cellIndex = _viewGridContainer.GetCellByPos(worldClick);
             return cellIndex;
         }
@@ -59,8 +61,6 @@ namespace App.Scripts.Scenes.SceneHeroes.Features.GameInput.Systems
             _handlerFieldClick.ProcessGridClick(Context, cellIndex);
         }
 
-        public void Cleanup()
-        {
-        }
+        public void Cleanup() { }
     }
 }

@@ -14,12 +14,15 @@ namespace App.Scripts.Scenes.SceneHeroes.Features.Units.Factory
             _factoryViewCell = factoryViewCell;
             _configUnitViews = configUnitViews;
         }
-        
+
         public ViewCell Create(UnitType param)
         {
-            var configUnit = _configUnitViews.FindConfig(param);
-            
-            var cell = _factoryViewCell.Create(_configUnitViews.Layer, configUnit.view);
+            ConfigUnitView configUnit = _configUnitViews.FindConfig(param);
+
+            ViewCellSpriteRender cell = _factoryViewCell.Create(
+                _configUnitViews.Layer,
+                configUnit.view
+            );
 
             return cell;
         }

@@ -17,7 +17,7 @@ namespace Tests.SceneCalculator
         [TestCase("8 *2 - (3 +5)  ", 8)]
         public void TestCalculatorOneLineExpression(string expression, int expected)
         {
-            var calculator = new CalculatorExpression();
+            CalculatorExpression calculator = new();
 
             int result = calculator.Execute(expression);
 
@@ -28,19 +28,19 @@ namespace Tests.SceneCalculator
         [TestCase("scenario_0")]
         public void TestParamsCalculator(string testFileKey)
         {
-            var testPath = string.Format(PathTestCase, testFileKey);
+            string testPath = string.Format(PathTestCase, testFileKey);
 
-            var testText = File.ReadAllText(testPath);
-            var testData = JsonUtility.FromJson<TestExpression>(testText);
+            string testText = File.ReadAllText(testPath);
+            TestExpression testData = JsonUtility.FromJson<TestExpression>(testText);
 
-            var calculator = new CalculatorExpression();
+            CalculatorExpression calculator = new();
 
-            foreach (var expression in testData.expressions)
+            foreach (TestParamExpression expression in testData.expressions)
             {
                 calculator.SetExpression(expression.key, expression.value);
             }
 
-            foreach (var expressionCase in testData.expected)
+            foreach (TestExpressionCase expressionCase in testData.expected)
             {
                 int result = calculator.Get(expressionCase.key);
                 Assert.AreEqual(expressionCase.result, result);

@@ -6,8 +6,9 @@ namespace App.Scripts.Scenes.SceneCalculator.Bootstrap.Installers
 {
     public class InstallerViewCalculator : MonoInstaller
     {
-        [SerializeField] private ViewLogMono viewLog;
-        
+        [SerializeField]
+        private ViewLogMono viewLog;
+
         protected override void OnInstallBindings()
         {
             Container.SetService<IViewLog, ViewLogMono>(viewLog);

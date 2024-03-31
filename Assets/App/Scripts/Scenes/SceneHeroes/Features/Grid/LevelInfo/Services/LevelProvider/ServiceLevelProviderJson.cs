@@ -14,23 +14,30 @@ namespace App.Scripts.Scenes.SceneHeroes.Features.Grid.LevelInfo.Services.LevelP
         {
             _config = config;
         }
-        
+
         public ILevelInfo GetLevel(int index)
         {
-            var levelData =_config.levels[index];
+            TextAsset levelData = _config.levels[index];
 
             try
             {
-                var levelInfoTarget = JsonConvert.DeserializeObject<LevelInfoTarget>(levelData.text);
+                LevelInfoTarget levelInfoTarget = JsonConvert.DeserializeObject<LevelInfoTarget>(
+                    levelData.text
+                );
 
                 if (levelInfoTarget is null)
                 {
                     return null;
                 }
-                
-                var unitInfo = new UnitInfo(levelInfoTarget.UnitType, levelInfoTarget.PlaceUnit.ToVector2Int());
 
-                return new LevelGridInfo(levelInfoTarget.gridSize.ToVector2Int(), levelInfoTarget.Obstacles, unitInfo);
+                UnitInfo unitInfo =
+                    new(levelInfoTarget.UnitType, levelInfoTarget.PlaceUnit.ToVector2Int());
+
+                return new LevelGridInfo(
+                    levelInfoTarget.gridSize.ToVector2Int(),
+                    levelInfoTarget.Obstacles,
+                    unitInfo
+                );
             }
             catch (Exception)
             {
@@ -44,7 +51,7 @@ namespace App.Scripts.Scenes.SceneHeroes.Features.Grid.LevelInfo.Services.LevelP
         {
             return _config.levels.Count;
         }
-        
+
         [Serializable]
         public class Config
         {

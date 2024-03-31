@@ -6,30 +6,23 @@ namespace App.Scripts.Modules.Systems
 {
     public class ComponentContainer
     {
-        
-        private interface IContainerComponents
-        {
-            
-        }
-        
-        private class ContainerComponents<T> : IContainerComponents where T : class 
+        private interface IContainerComponents { }
+
+        private class ContainerComponents<T> : IContainerComponents
+            where T : class
         {
             private List<T> _components = new();
 
-            public ContainerComponents()
-            {
-                
-            }
+            public ContainerComponents() { }
 
             public void Add(T value)
             {
                 _components.Add(value);
             }
 
-
             public void Remove(T value)
             {
-                _components.Remove(value);
+                _ = _components.Remove(value);
             }
 
             public T Get()
@@ -59,7 +52,7 @@ namespace App.Scripts.Modules.Systems
                     return default;
                 }
 
-                var component = _components[0];
+                T component = _components[0];
                 _components.RemoveAt(0);
                 return component;
             }
@@ -69,61 +62,67 @@ namespace App.Scripts.Modules.Systems
                 return _components.Count;
             }
         }
-        
+
         private readonly Dictionary<Type, IContainerComponents> _components = new();
 
-        public T GetComponent<T>() where T : class
+        public T GetComponent<T>()
+            where T : class
         {
-            var container = GetContainerByType<T>();
+            ContainerComponents<T> container = GetContainerByType<T>();
             return container.Get();
         }
-        
-        public IReadOnlyList<T> GetComponents<T>() where T : class
+
+        public IReadOnlyList<T> GetComponents<T>()
+            where T : class
         {
-            var container = GetContainerByType<T>();
+            ContainerComponents<T> container = GetContainerByType<T>();
             return container.GetComponents();
         }
-        
-        public void AddComponent<T>(T component) where T : class
+
+        public void AddComponent<T>(T component)
+            where T : class
         {
-            var container = GetContainerByType<T>();
+            ContainerComponents<T> container = GetContainerByType<T>();
             container.Add(component);
         }
-        
-        public void SetComponent<T>(T component) where T : class
+
+        public void SetComponent<T>(T component)
+            where T : class
         {
-            var container = GetContainerByType<T>();
+            ContainerComponents<T> container = GetContainerByType<T>();
             container.Clear();
             container.Add(component);
         }
 
-        private ContainerComponents<T> GetContainerByType<T>() where T : class
+        private ContainerComponents<T> GetContainerByType<T>()
+            where T : class
         {
-            var type = typeof(T);
+            Type type = typeof(T);
 
-            if (_components.TryGetValue(type, out var container))
+            if (_components.TryGetValue(type, out IContainerComponents container))
             {
                 return container as ContainerComponents<T>;
             }
 
-            var componentContainer = new ContainerComponents<T>();
+            ContainerComponents<T> componentContainer = new();
             _components[type] = componentContainer;
 
             return componentContainer;
         }
 
-        public bool HasComponent<T>() where T : class
+        public bool HasComponent<T>()
+            where T : class
         {
-            var container = GetContainerByType<T>();
-
+            ContainerComponents<T> container = GetContainerByType<T>();
 
             return container.HasComponents();
         }
-        
-        public bool TryGetComponent<T>(out T component) where T : class
+
+        public bool TryGetComponent<T>(out T component)
+            where T : class
         {
             component = default;
-            var container = GetContainerByType<T>();
+            ContainerComponents<T> container = GetContainerByType<T>();
 
             if (!container.HasComponents())
             {
@@ -134,27 +133,29 @@ namespace App.Scripts.Modules.Systems
 
             return true;
         }
-        
-        public T ClearComponents<T>() where T : class
+
+        public T ClearComponents<T>()
+            where T : class
         {
-            var container = GetContainerByType<T>();
+            ContainerComponents<T> container = GetContainerByType<T>();
             container.Clear();
-            
+
             return default;
         }
-        
-        public T RemoveComponent<T>() where T : class
+
+        public T RemoveComponent<T>()
+            where T : class
         {
-            var container = GetContainerByType<T>();
-            
-            return container.RemoveFirst();;
+            ContainerComponents<T> container = GetContainerByType<T>();
+
+            return container.RemoveFirst();
+            ;
         }
 
- 
-        
-        public int GetComponentCount<T>() where T : class
+        public int GetComponentCount<T>()
+            where T : class
         {
-            var container = GetContainerByType<T>();
+            ContainerComponents<T> container = GetContainerByType<T>();
 
             return container.GetComponentsCount();
         }

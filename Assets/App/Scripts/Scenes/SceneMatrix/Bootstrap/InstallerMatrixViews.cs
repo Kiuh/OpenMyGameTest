@@ -8,17 +8,23 @@ namespace App.Scripts.Scenes.SceneMatrix.Bootstrap
 {
     public class InstallerMatrixViews : MonoInstaller
     {
-        [SerializeField] private ViewGridContainer viewGridContainer;
-        [SerializeField] private StepInitializeGridView.Config configField;
-        [SerializeField] private ViewCellSpriteRender prefabCell;
+        [SerializeField]
+        private ViewGridContainer viewGridContainer;
+
+        [SerializeField]
+        private StepInitializeGridView.Config configField;
+
+        [SerializeField]
+        private ViewCellSpriteRender prefabCell;
 
         protected override void OnInstallBindings()
         {
             Container.SetService<IViewGridContainer, ViewGridContainer>(viewGridContainer);
             Container.SetServiceSelf(configField);
 
-            
-            Container.SetService<IFactory<ViewCell>, FactoryViewCell>(new FactoryViewCell(prefabCell));
+            Container.SetService<IFactory<ViewCell>, FactoryViewCell>(
+                new FactoryViewCell(prefabCell)
+            );
         }
     }
 }

@@ -7,13 +7,18 @@ namespace App.Scripts.Modules.TaskExtensions
     {
         public static void Forget(this Task task)
         {
-            task.ContinueWith(completedTask =>
+            _ = task.ContinueWith(completedTask =>
             {
-                if (completedTask.Exception is null) return;
+                if (completedTask.Exception is null)
+                {
+                    return;
+                }
 
-                foreach (var exception in completedTask.Exception.InnerExceptions) Debug.LogException(exception);
+                foreach (System.Exception exception in completedTask.Exception.InnerExceptions)
+                {
+                    Debug.LogException(exception);
+                }
             });
         }
-        
     }
 }

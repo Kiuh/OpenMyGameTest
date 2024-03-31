@@ -20,13 +20,17 @@ namespace App.Scripts.Features.Scenes.SceneNavigation
 
         public List<SceneInfo> GetAvailableSwitchScenes()
         {
-            var currentSceneName = SceneManager.GetActiveScene().name;
+            string currentSceneName = SceneManager.GetActiveScene().name;
 
-            var result = new List<SceneInfo>();
+            List<SceneInfo> result = new();
 
-            foreach (var sceneInfo in _configScenes.AvailableScenes)
+            foreach (SceneInfo sceneInfo in _configScenes.AvailableScenes)
+            {
                 if (sceneInfo.SceneKey != currentSceneName)
+                {
                     result.Add(sceneInfo);
+                }
+            }
 
             return result;
         }

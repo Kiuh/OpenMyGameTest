@@ -18,19 +18,21 @@ namespace App.Scripts.Scenes.SceneHeroes.Features.Units.UnitSelection.Systems
         private readonly List<UnitType> _availableUnits;
         public SystemContext Context { get; set; }
 
-        public SystemSwitchUnit(IViewSelectorItem viewSelectorItem, IFactory<IUnitInfo, Unit> factoryUnit)
+        public SystemSwitchUnit(
+            IViewSelectorItem viewSelectorItem,
+            IFactory<IUnitInfo, Unit> factoryUnit
+        )
         {
             _viewSelectorItem = viewSelectorItem;
             _factoryUnit = factoryUnit;
 
             _availableUnits = GetAvailableItems();
         }
-        
+
         public void Init()
         {
             _viewSelectorItem.OnSelectItem += OnSelectorUnit;
-            _viewSelectorItem.UpdateItems(_availableUnits.Select( x=> x.ToString()).ToList());
-
+            _viewSelectorItem.UpdateItems(_availableUnits.Select(x => x.ToString()).ToList());
         }
 
         private List<UnitType> GetAvailableItems()
@@ -40,16 +42,16 @@ namespace App.Scripts.Scenes.SceneHeroes.Features.Units.UnitSelection.Systems
 
         private void OnSelectorUnit(int selectedIndex)
         {
-            var unitType = _availableUnits[selectedIndex];
-            
-            var unit = GetCurrentUnit();
+            UnitType unitType = _availableUnits[selectedIndex];
+
+            Unit unit = GetCurrentUnit();
 
             if (unit.UnitType == unitType)
             {
                 return;
             }
 
-            var replaceUnit = _factoryUnit.Create(new UnitInfo(unitType, unit.CellPosition));
+            Unit replaceUnit = _factoryUnit.Create(new UnitInfo(unitType, unit.CellPosition));
             unit.Cleanup();
             Context.Data.SetComponent(replaceUnit);
         }
@@ -66,7 +68,7 @@ namespace App.Scripts.Scenes.SceneHeroes.Features.Units.UnitSelection.Systems
                 return;
             }
 
-            var unit = GetCurrentUnit();
+            Unit unit = GetCurrentUnit();
             _viewSelectorItem.SelectItem(_availableUnits.IndexOf(unit.UnitType));
         }
 

@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace App.Scripts.Modules.SceneContainer.ServiceLocator
 {
-    public class Container : IServiceContainer 
+    public class Container : IServiceContainer
     {
         private readonly List<object> _values = new();
 
@@ -12,14 +12,16 @@ namespace App.Scripts.Modules.SceneContainer.ServiceLocator
             _values.Add(value);
         }
 
-        public TBind GetService<TBind>() where TBind : class
+        public TBind GetService<TBind>()
+            where TBind : class
         {
             return _values.FirstOrDefault() as TBind;
         }
 
-        public IEnumerable<TBind> GetServices<TBind>() where TBind : class
+        public IEnumerable<TBind> GetServices<TBind>()
+            where TBind : class
         {
-            foreach (var value in _values)
+            foreach (object value in _values)
             {
                 if (value is TBind bindValue)
                 {
@@ -33,7 +35,7 @@ namespace App.Scripts.Modules.SceneContainer.ServiceLocator
             return _values.FirstOrDefault();
         }
 
-        public IEnumerable<object> GetValues() 
+        public IEnumerable<object> GetValues()
         {
             return _values;
         }

@@ -41,13 +41,13 @@ namespace Tests.SceneMatrix
 
         private void ProcessFileTest(string fileKey, string expectedFileKey, int rotationCount)
         {
-            var inputMatrixText = TestTools.LoadMatrixFromKey(fileKey);
+            string inputMatrixText = TestTools.LoadMatrixFromKey(fileKey);
             Grid<bool> inputMatrix = _figureParser.ParseFile(inputMatrixText);
 
-            var expectedMatrixText = TestTools.LoadMatrixFromKey(expectedFileKey);
+            string expectedMatrixText = TestTools.LoadMatrixFromKey(expectedFileKey);
             Grid<bool> expectedMatrix = _figureParser.ParseFile(expectedMatrixText);
 
-            var resultMatrix = _figureRotator.RotateFigure(inputMatrix, rotationCount);
+            Grid<bool> resultMatrix = _figureRotator.RotateFigure(inputMatrix, rotationCount);
 
             Assert.AreEqual(expectedMatrix, resultMatrix);
         }

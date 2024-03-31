@@ -8,8 +8,8 @@ namespace App.Scripts.Scenes.SceneHeroes.Features.Grid.Obstacles.Config
     [CreateAssetMenu(fileName = "configViewObstacle", menuName = "app/heroes/obstacle config")]
     public class ConfigViewObstacle : ScriptableObject, IObstacleConfiguration
     {
-        
-        [SerializeField] private List<ObstacleViewConfig> _obstacles = new();
+        [SerializeField]
+        private List<ObstacleViewConfig> _obstacles = new();
 
         [SerializeField]
         private float obstacleLayer;
@@ -18,12 +18,10 @@ namespace App.Scripts.Scenes.SceneHeroes.Features.Grid.Obstacles.Config
 
         public IEnumerable<int> AvailableObstacleTypes => _obstacles.Select(x => x.ObstacleType);
 
-        
         public ObstacleViewConfig FindObstacleConfig(int obstacleType)
         {
             return _obstacles.FirstOrDefault(x => x.ObstacleType == obstacleType);
         }
-
     }
 
     [Serializable]

@@ -6,9 +6,12 @@ namespace App.Scripts.Features.LevelSelection
 {
     public class ViewSwitchNavigator : MonoBehaviour, IViewSwitchNavigator
     {
-        [SerializeField] private Button buttonNextLevel;
-        [SerializeField] private Button buttonPrevLevel;
-        
+        [SerializeField]
+        private Button buttonNextLevel;
+
+        [SerializeField]
+        private Button buttonPrevLevel;
+
         public event Action<int> ChangeLevel;
 
         private void Awake()

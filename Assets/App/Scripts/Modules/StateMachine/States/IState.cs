@@ -9,7 +9,7 @@ namespace App.Scripts.Modules.StateMachine.States
         Task OnEnter<T>(T payload);
         Task OnExit();
         Task OnEnter();
-        List<ITransition> Transitions { get;  }
+        List<ITransition> Transitions { get; }
         bool IsComplete { get; }
         void AddTransition(ITransition transition);
 

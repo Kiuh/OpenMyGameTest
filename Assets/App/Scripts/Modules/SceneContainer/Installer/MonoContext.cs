@@ -19,15 +19,15 @@ namespace App.Scripts.Modules.SceneContainer.Installer
 
         private void Setup()
         {
-            var container = BuildContainer();
+            ServiceContainer container = BuildContainer();
             _initializables.AddRange(container.GetServices<IInitializable>());
             _updatables.AddRange(container.GetServices<IUpdatable>());
         }
 
         private ServiceContainer BuildContainer()
         {
-            var container = new ServiceContainer();
-            foreach (var installer in installers)
+            ServiceContainer container = new();
+            foreach (MonoInstaller installer in installers)
             {
                 installer.InstallBindings(container);
             }
@@ -37,15 +37,15 @@ namespace App.Scripts.Modules.SceneContainer.Installer
 
         private void Init()
         {
-            foreach (var initializable in _initializables)
+            foreach (IInitializable initializable in _initializables)
             {
                 initializable.Init();
             }
         }
-        
+
         private void Update()
         {
-            foreach (var updatable in _updatables)
+            foreach (IUpdatable updatable in _updatables)
             {
                 updatable.Update();
             }

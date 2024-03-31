@@ -1,7 +1,5 @@
-using System.Linq;
 using App.Scripts.Modules.Systems;
 using App.Scripts.Scenes.SceneHeroes.Features.GameInput.Services;
-using App.Scripts.Scenes.SceneHeroes.Features.Units.UnitSelection;
 using App.Scripts.Scenes.SceneHeroes.Features.Units.UnitSelection.UnitTypeSelector;
 
 namespace App.Scripts.Scenes.SceneHeroes.Features.GameInput.Systems
@@ -12,18 +10,21 @@ namespace App.Scripts.Scenes.SceneHeroes.Features.GameInput.Systems
         private readonly IViewSelectorItem _viewSelectorItem;
         public SystemContext Context { get; set; }
 
-        public SystemChangeClickHandler(IHandlerInputSelector handlerInputSelector, IViewSelectorItem viewSelectorItem)
+        public SystemChangeClickHandler(
+            IHandlerInputSelector handlerInputSelector,
+            IViewSelectorItem viewSelectorItem
+        )
         {
             _handlerInputSelector = handlerInputSelector;
             _viewSelectorItem = viewSelectorItem;
         }
-        
+
         public void Init()
         {
             _viewSelectorItem.UpdateItems(_handlerInputSelector.AvailableHandlers);
             _viewSelectorItem.OnSelectItem += OnSelectItem;
-            
-            var initHandlerIndex = 0;
+
+            int initHandlerIndex = 0;
             OnSelectItem(initHandlerIndex);
             _viewSelectorItem.SelectItem(initHandlerIndex);
         }
@@ -33,9 +34,7 @@ namespace App.Scripts.Scenes.SceneHeroes.Features.GameInput.Systems
             _handlerInputSelector.ChangeHandler(_handlerInputSelector.AvailableHandlers[index]);
         }
 
-        public void Update(float dt)
-        {
-        }
+        public void Update(float dt) { }
 
         public void Cleanup()
         {

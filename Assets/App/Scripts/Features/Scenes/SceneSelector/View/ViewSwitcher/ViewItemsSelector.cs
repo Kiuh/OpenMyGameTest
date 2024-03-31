@@ -9,10 +9,11 @@ namespace App.Scripts.Features.Scenes.SceneSelector.View.ViewSwitcher
     {
         public event Action<SceneInfo> OnItemSelected;
 
+        [SerializeField]
+        private RectTransform container;
 
-        [SerializeField] private RectTransform container;
-
-        [SerializeField] private ViewLabelButton prefabButton;
+        [SerializeField]
+        private ViewLabelButton prefabButton;
 
         private Stack<ViewLabelButton> _poolItems = new();
 
@@ -24,24 +25,20 @@ namespace App.Scripts.Features.Scenes.SceneSelector.View.ViewSwitcher
 
             foreach (SceneInfo sceneInfo in sceneInfos)
             {
-                var viewButton = CreateView();
+                ViewLabelButton viewButton = CreateView();
                 viewButton.UpdateLabel(sceneInfo.SceneViewName);
 
-                viewButton.OnClick += () =>
-                {
-                    OnItemSelected?.Invoke(sceneInfo);
-                };
-                
+                viewButton.OnClick += () => OnItemSelected?.Invoke(sceneInfo);
+
                 _views.Add(viewButton);
             }
-            
         }
 
         private ViewLabelButton CreateView()
         {
             if (_poolItems.Count > 0)
             {
-                var item = _poolItems.Pop();
+                ViewLabelButton item = _poolItems.Pop();
                 item.gameObject.SetActive(true);
                 return item;
             }
@@ -55,7 +52,7 @@ namespace App.Scripts.Features.Scenes.SceneSelector.View.ViewSwitcher
             {
                 ReturnToPool(viewLabelButton);
             }
-            
+
             _views.Clear();
         }
 

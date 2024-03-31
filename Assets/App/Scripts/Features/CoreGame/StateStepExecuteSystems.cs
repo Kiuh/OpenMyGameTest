@@ -1,5 +1,4 @@
 using System.Threading.Tasks;
-using App.Scripts.Modules.StateMachine;
 using App.Scripts.Modules.StateMachine.States;
 using App.Scripts.Modules.Systems;
 using UnityEngine;
@@ -14,7 +13,7 @@ namespace App.Scripts.Features.CoreGame
         {
             _systemsGroup = systemsGroup;
         }
-        
+
         public override Task OnEnter()
         {
             _systemsGroup.Init();

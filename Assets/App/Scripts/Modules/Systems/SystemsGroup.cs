@@ -6,15 +6,13 @@ namespace App.Scripts.Modules.Systems
     {
         private readonly List<ISystem> _systems = new();
 
-        private readonly SystemContext _context = new ();
-        
-        public SystemsGroup()
-        {
-        }
+        private readonly SystemContext _context = new();
+
+        public SystemsGroup() { }
 
         public SystemsGroup(IEnumerable<ISystem> systems)
         {
-            AddSystems(systems);
+            _ = AddSystems(systems);
         }
 
         public SystemsGroup AddSystem(ISystem system)
@@ -26,29 +24,35 @@ namespace App.Scripts.Modules.Systems
 
         public SystemsGroup AddSystems(IEnumerable<ISystem> systems)
         {
-            foreach (var system in systems) AddSystem(system);
+            foreach (ISystem system in systems)
+            {
+                _ = AddSystem(system);
+            }
 
             return this;
         }
 
         public void Init()
         {
-            foreach (var system in _systems) system.Init();
+            foreach (ISystem system in _systems)
+            {
+                system.Init();
+            }
         }
 
         public void Update(float dt)
         {
-            foreach (var system in _systems)
+            foreach (ISystem system in _systems)
             {
                 system.Update(dt);
             }
-            
+
             _context.Clean();
         }
 
         public void Cleanup()
         {
-            foreach (var system in _systems)
+            foreach (ISystem system in _systems)
             {
                 system.Cleanup();
             }

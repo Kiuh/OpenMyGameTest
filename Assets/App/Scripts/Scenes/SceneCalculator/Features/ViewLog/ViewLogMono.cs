@@ -7,9 +7,12 @@ namespace App.Scripts.Scenes.SceneCalculator.Features.ViewLog
 {
     public class ViewLogMono : MonoBehaviour, IViewLog
     {
-        [SerializeField] private TextMeshProUGUI logLabel;
-        [SerializeField] private int maxLogCount;
-        
+        [SerializeField]
+        private TextMeshProUGUI logLabel;
+
+        [SerializeField]
+        private int maxLogCount;
+
         private readonly List<string> _messages = new();
         private readonly StringBuilder _buffer = new();
 
@@ -28,11 +31,11 @@ namespace App.Scripts.Scenes.SceneCalculator.Features.ViewLog
         {
             foreach (string message in _messages)
             {
-                _buffer.AppendLine(message);
+                _ = _buffer.AppendLine(message);
             }
 
             logLabel.text = _buffer.ToString();
-            _buffer.Clear();
+            _ = _buffer.Clear();
         }
     }
 }

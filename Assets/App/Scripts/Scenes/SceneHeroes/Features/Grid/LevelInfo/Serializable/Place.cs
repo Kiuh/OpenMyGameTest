@@ -6,7 +6,7 @@ namespace App.Scripts.Scenes.SceneHeroes.Features.Grid.LevelInfo.Serializable
     {
         public int X;
         public int Y;
-        
+
         public Place(Vector2Int pos)
         {
             X = pos.x;
@@ -23,6 +23,5 @@ namespace App.Scripts.Scenes.SceneHeroes.Features.Grid.LevelInfo.Serializable
         {
             return new Vector2Int(X, Y);
         }
-        
     }
 }

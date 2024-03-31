@@ -11,7 +11,7 @@ namespace App.Scripts.Scenes.SceneHeroes.Features.Grid.LevelInfo.Services.LevelP
         {
             _levelInfos = levelInfos.ToList();
         }
-        
+
         public ILevelInfo GetLevel(int index)
         {
             return _levelInfos[index];

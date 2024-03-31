@@ -1,6 +1,5 @@
 using System.Threading.Tasks;
 using App.Scripts.Features.Scenes.SceneSelector.Triggers;
-using App.Scripts.Modules.StateMachine;
 using App.Scripts.Modules.StateMachine.States;
 using App.Scripts.Modules.StateMachine.Transitions;
 
@@ -22,7 +21,7 @@ namespace App.Scripts.Features.Scenes.SceneSelector.Transitions
 
         public override Task ProcessEnter(IState currentState)
         {
-            var taskEnter = currentState.OnEnter(_triggerData);
+            Task taskEnter = currentState.OnEnter(_triggerData);
             _triggerData = null;
             return taskEnter;
         }
