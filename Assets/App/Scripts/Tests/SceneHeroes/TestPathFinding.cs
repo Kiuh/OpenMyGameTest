@@ -49,19 +49,20 @@ namespace Tests.SceneHeroes
                 grid
             );
 
+            Debug.Log(
+                $"{testCase.UnitType}\n"
+                    + $"{grid}\n{testCase.PlaceUnit.ToVector2Int()}"
+                    + $"\n{testCase.target.ToVector2Int()}"
+            );
+
             if (testCase.targetStepCount < 0 && path is null)
             {
                 return;
             }
 
-            Assert.AreEqual(
-                testCase.targetStepCount,
-                path.Count,
-                $"Step count invalid {testCase.UnitType}\n"
-                    + $"{grid}\n{testCase.PlaceUnit.ToVector2Int()}"
-                    + $"\n{testCase.target.ToVector2Int()}"
-                    + $"\n Path: {path.Select(x => x.ToString()).Aggregate((x, y) => $"{x} {y}")}"
-            );
+            Debug.Log($"\n Path: {path.Select(x => x.ToString()).Aggregate((x, y) => $"{x} {y}")}");
+
+            Assert.AreEqual(testCase.targetStepCount, path.Count, $"Step count invalid.");
         }
     }
 }

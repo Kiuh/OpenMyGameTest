@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using App.Scripts.Modules.Grid;
 using App.Scripts.Scenes.SceneHeroes.Features.Grid.LevelInfo.Config;
 using UnityEngine;
 
@@ -23,7 +22,7 @@ namespace App.Scripts.Scenes.SceneHeroes.Features.PathFinding
         public List<IMovePattern> MovePatterns;
         public Dictionary<Obstacle, StayType> PassInfo;
 
-        public List<Vector2Int> GetAvailablePositions(Vector2Int pos, Grid<Obstacle> grid)
+        public List<Vector2Int> GetAvailablePositions(Vector2Int pos, List<PositionedObstacle> grid)
         {
             List<Vector2Int> nextLocations = new();
             foreach (IMovePattern pattern in MovePatterns)
@@ -59,10 +58,10 @@ namespace App.Scripts.Scenes.SceneHeroes.Features.PathFinding
                     {
                         MovePatterns = new()
                         {
-                            new InfinityMovePattern() { Direction = new(1, 1) },
-                            new InfinityMovePattern() { Direction = new(-1, 1) },
-                            new InfinityMovePattern() { Direction = new(1, -1) },
-                            new InfinityMovePattern() { Direction = new(-1, -1) },
+                            new InfinityMovePattern(new(1, 1)),
+                            new InfinityMovePattern(new(-1, 1)),
+                            new InfinityMovePattern(new(1, -1)),
+                            new InfinityMovePattern(new(-1, -1)),
                         },
                         PassInfo = new()
                         {
@@ -76,10 +75,10 @@ namespace App.Scripts.Scenes.SceneHeroes.Features.PathFinding
                     {
                         MovePatterns = new()
                         {
-                            new InfinityMovePattern() { Direction = new(0, 1) },
-                            new InfinityMovePattern() { Direction = new(0, -1) },
-                            new InfinityMovePattern() { Direction = new(1, 0) },
-                            new InfinityMovePattern() { Direction = new(-1, 0) },
+                            new InfinityMovePattern(new(0, 1)),
+                            new InfinityMovePattern(new(0, -1)),
+                            new InfinityMovePattern(new(1, 0)),
+                            new InfinityMovePattern(new(-1, 0)),
                         },
                         PassInfo = new()
                         {
@@ -93,8 +92,8 @@ namespace App.Scripts.Scenes.SceneHeroes.Features.PathFinding
                     {
                         MovePatterns = new()
                         {
-                            new InfinityMovePattern() { Direction = new(0, 1) },
-                            new InfinityMovePattern() { Direction = new(0, -1) },
+                            new InfinityMovePattern(new(0, 1)),
+                            new InfinityMovePattern(new(0, -1)),
                             new ConstantPattern() { Moves = new() { new(1, 1) } },
                             new ConstantPattern() { Moves = new() { new(-1, 1) } },
                             new ConstantPattern() { Moves = new() { new(-1, -1) } },
@@ -133,14 +132,14 @@ namespace App.Scripts.Scenes.SceneHeroes.Features.PathFinding
                     {
                         MovePatterns = new()
                         {
-                            new InfinityMovePattern() { Direction = new(0, 1) },
-                            new InfinityMovePattern() { Direction = new(0, -1) },
-                            new InfinityMovePattern() { Direction = new(1, 0) },
-                            new InfinityMovePattern() { Direction = new(-1, 0) },
-                            new InfinityMovePattern() { Direction = new(1, 1) },
-                            new InfinityMovePattern() { Direction = new(-1, 1) },
-                            new InfinityMovePattern() { Direction = new(1, -1) },
-                            new InfinityMovePattern() { Direction = new(-1, -1) },
+                            new InfinityMovePattern(new(0, 1)),
+                            new InfinityMovePattern(new(0, -1)),
+                            new InfinityMovePattern(new(1, 0)),
+                            new InfinityMovePattern(new(-1, 0)),
+                            new InfinityMovePattern(new(1, 1)),
+                            new InfinityMovePattern(new(-1, 1)),
+                            new InfinityMovePattern(new(1, -1)),
+                            new InfinityMovePattern(new(-1, -1)),
                         },
                         PassInfo = new()
                         {

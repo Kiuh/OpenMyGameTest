@@ -7,6 +7,12 @@ using UnityEngine;
 
 namespace App.Scripts.Scenes.SceneHeroes.Features.PathFinding
 {
+    public class PositionedObstacle
+    {
+        public Vector2Int Position;
+        public Obstacle Type;
+    }
+
     public class Location
     {
         public Vector2Int Position;
@@ -32,20 +38,28 @@ namespace App.Scripts.Scenes.SceneHeroes.Features.PathFinding
         )
         {
             UnitMoveData unitMoveData = UnitMoveData.FromUnitType(unitType);
-            Grid<Obstacle> grid = new(gridMatrix.Size);
-            for (int i = 0; i < gridMatrix.Height; i++)
+            List<PositionedObstacle> grid = new();
+
+            for (int i = 0; i < gridMatrix.Width; i++)
             {
-                for (int j = 0; j < gridMatrix.Width; j++)
+                for (int j = 0; j < gridMatrix.Height; j++)
                 {
-                    grid[i, j] = (Obstacle)gridMatrix[i, j];
+                    grid.Add(
+                        new PositionedObstacle()
+                        {
+                            Type = (Obstacle)gridMatrix[j, i],
+                            Position = new(i, j)
+                        }
+                    );
                 }
             }
+
             return CreatePath(unitMoveData, grid, from, to);
         }
 
         public List<Vector2Int> CreatePath(
             UnitMoveData unitMoveData,
-            Grid<Obstacle> grid,
+            List<PositionedObstacle> grid,
             Vector2Int inStart,
             Vector2Int inFinish
         )
@@ -72,13 +86,12 @@ namespace App.Scripts.Scenes.SceneHeroes.Features.PathFinding
                         l.Position == target.Position
                     );
                     List<Vector2Int> result = new();
-                    while (iterator != null)
+                    while (iterator.Parent != null)
                     {
                         result.Add(iterator.Position);
                         iterator = iterator.Parent;
                     }
                     result.Reverse();
-                    result.RemoveAt(0);
                     return result;
                 }
 

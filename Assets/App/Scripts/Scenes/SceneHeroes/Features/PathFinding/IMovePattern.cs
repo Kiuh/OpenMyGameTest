@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using App.Scripts.Modules.Grid;
+using System.Linq;
 using UnityEngine;
 
 namespace App.Scripts.Scenes.SceneHeroes.Features.PathFinding
@@ -7,7 +7,7 @@ namespace App.Scripts.Scenes.SceneHeroes.Features.PathFinding
     public interface IMovePattern
     {
         public IEnumerable<Vector2Int> CreateSequence(
-            Grid<Obstacle> grid,
+            List<PositionedObstacle> grid,
             Vector2Int position,
             Dictionary<Obstacle, StayType> passInfo
         );
@@ -18,7 +18,7 @@ namespace App.Scripts.Scenes.SceneHeroes.Features.PathFinding
         public List<Vector2Int> Moves;
 
         public IEnumerable<Vector2Int> CreateSequence(
-            Grid<Obstacle> grid,
+            List<PositionedObstacle> grid,
             Vector2Int position,
             Dictionary<Obstacle, StayType> passInfo
         )
@@ -27,14 +27,12 @@ namespace App.Scripts.Scenes.SceneHeroes.Features.PathFinding
             foreach (Vector2Int move in Moves)
             {
                 position += move;
-                if (grid.IsValid(position) && passInfo[grid[position]] == StayType.CanStayAndPass)
-                {
-                    nextLocations.Add(position);
-                }
-                else
+                PositionedObstacle obstacle = grid.FirstOrDefault(x => x.Position == position);
+                if (obstacle == null || passInfo[obstacle.Type] != StayType.CanStayAndPass)
                 {
                     break;
                 }
+                nextLocations.Add(position);
             }
             return nextLocations;
         }
@@ -44,18 +42,25 @@ namespace App.Scripts.Scenes.SceneHeroes.Features.PathFinding
     {
         public Vector2Int Direction;
 
+        public InfinityMovePattern(Vector2Int direction)
+        {
+            Direction = direction;
+        }
+
         public IEnumerable<Vector2Int> CreateSequence(
-            Grid<Obstacle> grid,
+            List<PositionedObstacle> grid,
             Vector2Int position,
             Dictionary<Obstacle, StayType> passInfo
         )
         {
             List<Vector2Int> nextLocations = new();
             position += Direction;
-            while (grid.IsValid(position) && passInfo[grid[position]] == StayType.CanStayAndPass)
+            PositionedObstacle nextObstacle = grid.FirstOrDefault(x => x.Position == position);
+            while (nextObstacle != null && passInfo[nextObstacle.Type] == StayType.CanStayAndPass)
             {
                 nextLocations.Add(position);
                 position += Direction;
+                nextObstacle = grid.FirstOrDefault(x => x.Position == position);
             }
             return nextLocations;
         }
